@@ -190,20 +190,40 @@ func generate_floating_floors():
 		var mesh_instance = floor_instance.get_node("MeshInstance3D")
 		var collision_shape = floor_instance.get_node("CollisionShape3D")
 		
-		if mesh_instance and mesh_instance.mesh is PlaneMesh:
-			var mesh_size = Vector2(randf_range(3, 8), randf_range(3, 8))
-			mesh_instance.mesh.size = mesh_size
+		# Defina tamanhos fixos para testar primeiro
+		var floor_width = randf_range(3, 8)
+		var floor_depth = randf_range(3, 8)
+		var floor_thickness = 0.3  # Tamanho fixo para testar
 		
-		if collision_shape and collision_shape.shape is BoxShape3D:
-			collision_shape.shape.size = Vector3(
-				randf_range(3, 8), 
-				0.1, 
-				randf_range(3, 8)
-			)
+		# MODIFICAÇÃO: Ajustar o mesh
+		if mesh_instance:
+			# Crie um novo BoxMesh se necessário
+			var new_mesh = BoxMesh.new()
+			new_mesh.size = Vector3(floor_width, floor_thickness, floor_depth)
+			mesh_instance.mesh = new_mesh
+		
+		# MODIFICAÇÃO: Ajustar a colisão
+		if collision_shape:
+			# Crie um novo BoxShape3D se necessário
+			var new_shape = BoxShape3D.new()
+			new_shape.size = Vector3(floor_width, floor_thickness, floor_depth)
+			collision_shape.shape = new_shape
 		
 		if randf() < fragile_floor_chance:
 			floor_instance.Floor_type = 1
+			# Adiciona um material vermelho para pisos frágeis
+			var material = StandardMaterial3D.new()
+			material.albedo_color = Color(0.8, 0.3, 0.3)
+			mesh_instance.material_override = material
 		else:
 			floor_instance.Floor_type = 0
+			# Adiciona um material cinza para pisos sólidos
+			var material = StandardMaterial3D.new()
+			material.albedo_color = Color(0.6, 0.6, 0.6)
+			mesh_instance.material_override = material
 		
 		$FloatingFloors.add_child(floor_instance)
+		
+		# DEBUG: Verifique se a colisão está sendo aplicada
+		print("Piso criado em: ", Vector3(pos_x, height, pos_z), 
+			  " Tamanho: ", Vector3(floor_width, floor_thickness, floor_depth))
