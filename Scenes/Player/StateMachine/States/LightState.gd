@@ -29,7 +29,7 @@ func process_physics(delta: float) -> void:
 	if direction:
 		player.velocity.x = lerp(player.velocity.x, direction.x * move_speed, acceleration * delta)
 		player.velocity.z = lerp(player.velocity.z, direction.z * move_speed, acceleration * delta)
-		print("LightState: Movendo - Velocidade: ", player.velocity)
+		#print("LightState: Movendo - Velocidade: ", player.velocity)
 	else:
 		player.velocity.x = lerp(player.velocity.x, 0.0, deceleration * delta)
 		player.velocity.z = lerp(player.velocity.z, 0.0, deceleration * delta)

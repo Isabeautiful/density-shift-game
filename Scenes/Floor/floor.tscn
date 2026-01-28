@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://boh1chc0c1iog"]
+
+[ext_resource type="Script" uid="uid://cd885h4mh1jrf" path="res://Scenes/Floor/floor.gd" id="1_ysx5j"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7mudv"]
+size = Vector3(13.902283, 0.001, 10.008343)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_ysx5j"]
+size = Vector2(14, 10)
+
+[node name="Floor" type="StaticBody3D"]
+script = ExtResource("1_ysx5j")
+Floor_type = 1
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.326474, 0.031774998, 0.021165848)
+shape = SubResource("BoxShape3D_7mudv")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.3256183, 0, 0)
+mesh = SubResource("PlaneMesh_ysx5j")

@@ -8,7 +8,7 @@ var jump_velocity: float = 8.0
 var move_speed: float = 4.0
 var acceleration: float = 15.0
 var deceleration: float = 20.0
-var break_force: float = 50.0
+var break_force: float = 500.0
 var can_break: bool = true
 
 func enter() -> void:
@@ -33,7 +33,7 @@ func process_physics(delta: float) -> void:
 	if direction:
 		player.velocity.x = lerp(player.velocity.x, direction.x * move_speed, acceleration * delta)
 		player.velocity.z = lerp(player.velocity.z, direction.z * move_speed, acceleration * delta)
-		print("HeavyState: Movendo - Velocidade: ", player.velocity)
+		#awddprint("HeavyState: Movendo - Velocidade: ", player.velocity)
 	else:
 		player.velocity.x = lerp(player.velocity.x, 0.0, deceleration * delta)
 		player.velocity.z = lerp(player.velocity.z, 0.0, deceleration * delta)
@@ -69,19 +69,20 @@ func check_fragile_floors() -> void:
 	var query = PhysicsRayQueryParameters3D.create(from, to)
 	query.exclude = [player]
 	
+	var is_breaking = Input.is_action_pressed("break_floor")
 	var result = space_state.intersect_ray(query)
 	if result:
 		var collider = result.collider
 		if collider.is_in_group("fragile_floor"):
-			# Quebra o piso se a velocidade vertical for alta o suficiente
-			if abs(player.velocity.y) > break_force:
+			if abs(player.air_kinetic_energy) > break_force and is_breaking:
 				break_floor(collider)
 
 func break_floor(floor_node: Node) -> void:
+	print("node: ", floor_node)
 	if can_break:
 		print("Piso frágil quebrado!")
 		can_break = false
-		
+		floor_node.queue_free()
 		# Cooldown para próxima quebra
 		await get_tree().create_timer(0.5).timeout
 		can_break = true
@@ -97,8 +98,10 @@ func break_fragile_floor() -> void:
 	var query = PhysicsRayQueryParameters3D.create(from, to)
 	query.exclude = [player]
 	
+	var is_breaking = Input.is_action_pressed("break_floor")
 	var result = space_state.intersect_ray(query)
 	if result:
 		var collider = result.collider
 		if collider.is_in_group("fragile_floor"):
-			break_floor(collider)
+			if abs(player.air_kinetic_energy) > break_force and is_breaking:
+				break_floor(collider)
