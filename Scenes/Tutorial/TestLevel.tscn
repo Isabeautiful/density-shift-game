@@ -1,29 +1,14 @@
-[gd_scene load_steps=5 format=3 uid="uid://dm0igfehih7gq"]
+[gd_scene load_steps=2 format=3 uid="uid://dm0igfehih7gq"]
 
 [ext_resource type="PackedScene" uid="uid://b1n85n6q7xwuv" path="res://Scenes/Player/Player.tscn" id="1"]
-[ext_resource type="PackedScene" uid="uid://boh1chc0c1iog" path="res://Scenes/Floor/floor.tscn" id="2_t0uvp"]
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_1"]
-size = Vector3(20, 0.1, 20)
-
-[sub_resource type="BoxMesh" id="BoxMesh_1"]
-size = Vector3(20, 0.1, 20)
+[ext_resource type="PackedScene" path="res://Scenes/TowerFloor/TowerFloor.tscn" id="2_tower"]
 
 [node name="TestLevel" type="Node3D"]
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.70710677, -0.49999997, 0.49999997, 0, 0.70710677, 0.70710677, -0.70710677, -0.49999997, 0.49999997, 0, 10, 0)
+[node name="TowerFloor" parent="." instance=ExtResource("2_tower")]
 
-[node name="Floor" type="StaticBody3D" parent="."]
+[node name="MainLight" type="DirectionalLight3D" parent="."]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
-shape = SubResource("BoxShape3D_1")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
-mesh = SubResource("BoxMesh_1")
+[node name="AmbientLight" type="OmniLight3D" parent="."]
 
 [node name="Player" parent="." instance=ExtResource("1")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
-
-[node name="Floor2" parent="." instance=ExtResource("2_t0uvp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.4848804, -4.5258827)

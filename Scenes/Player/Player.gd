@@ -38,6 +38,11 @@ func _physics_process(delta):
 	state_machine.process_physics(delta)
 	move_and_slide()
 
+	# Verificar se caiu do mapa
+	if global_position.y < -10:
+		respawn()
+
+
 func _input(event):
 	# Delega o processamento de input para a máquina de estados
 	state_machine.process_input(event)
@@ -52,3 +57,9 @@ func can_jump() -> bool:
 
 func set_mass(new_mass: float) -> void:
 	current_mass = new_mass
+
+func respawn():
+	# Reposicionar o jogador no início, mas não muito alto para não bater no teto
+	global_position = Vector3(0, 2, 0)  # Mais baixo que antes
+	velocity = Vector3.ZERO
+	print("Player respawned!")
