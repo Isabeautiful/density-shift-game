@@ -5,10 +5,10 @@
 [ext_resource type="PackedScene" path="res://Scenes/Floor/floor.tscn" id="3_fragile"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_floor"]
-size = Vector3(100, 0.1, 100)
+size = Vector3(100, 0.3, 100)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_floor"]
-size = Vector3(100, 0.1, 100)
+size = Vector3(100, 0.3, 100)
 
 [node name="TowerFloor" type="Node3D"]
 script = ExtResource("1_script")
@@ -17,11 +17,13 @@ maze_cell_size = 10
 wall_height = 45
 ceiling_height = 45
 fragile_floor_chance = 0.2
+num_floors = 3
+floor_spacing = 10
 
 [node name="MainFloor" type="StaticBody3D" parent="."]
 
 [node name="FloorCollision" type="CollisionShape3D" parent="MainFloor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0)
 shape = SubResource("BoxShape3D_floor")
 
 [node name="FloorMesh" type="MeshInstance3D" parent="MainFloor"]
