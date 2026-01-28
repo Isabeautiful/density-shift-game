@@ -19,13 +19,20 @@ shape = SubResource("CapsuleShape3D_1")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 
 [node name="CameraPivot" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.46679568, 0)
 
 [node name="CameraController" type="Node3D" parent="CameraPivot"]
 script = ExtResource("2")
 
 [node name="Camera3D" type="Camera3D" parent="CameraPivot/CameraController"]
 current = true
+
+[node name="SpotLight3D" type="SpotLight3D" parent="CameraPivot/CameraController"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.46679568, 0)
+light_color = Color(1, 1, 0.050980393, 1)
+light_energy = 13.041
+spot_range = 50.999
+spot_angle = 29.06
 
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource("3")

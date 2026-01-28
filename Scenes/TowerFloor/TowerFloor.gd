@@ -4,7 +4,6 @@ extends Node3D
 @export var maze_cell_size: float = 10
 @export var wall_height: float = 45
 @export var ceiling_height: float = 45
-@export var complexity: float = 0.3
 @export var fragile_floor_chance: float = 0.2
 
 @onready var wall_scene = preload("res://Scenes/TowerFloor/Wall.tscn")
@@ -12,66 +11,155 @@ extends Node3D
 
 func _ready():
 	generate_tower_floor()
-	add_external_walls()
 	generate_maze()
+	add_external_walls()
 	generate_floating_floors()
 
 func generate_tower_floor():
 	$MainFloor.transform.origin = Vector3(0, 0, 0)
 	$Ceiling.transform.origin = Vector3(0, ceiling_height, 0)
 
+func generate_maze():
+	var grid_width = int(floor_size / maze_cell_size)
+	var grid_height = int(floor_size / maze_cell_size)
+	
+	# Cria uma matriz para o labirinto (true = parede, false = caminho)
+	var maze = []
+	for x in range(grid_width):
+		maze.append([])
+		for y in range(grid_height):
+			maze[x].append(true)  # Começa com todas as células como paredes
+	
+	# Algoritmo de Recursive Backtracker (DFS)
+	var stack = []
+	var start_x = 1
+	var start_y = 1
+	
+	maze[start_x][start_y] = false  # Célula inicial como caminho
+	stack.append(Vector2(start_x, start_y))
+	
+	var directions = [
+		Vector2(0, -2),  # Norte
+		Vector2(0, 2),   # Sul
+		Vector2(-2, 0),  # Oeste
+		Vector2(2, 0)    # Leste
+	]
+	
+	while stack.size() > 0:
+		var current = stack.back()
+		var x = int(current.x)
+		var y = int(current.y)
+		
+		# Verifica vizinhos não visitados
+		var neighbors = []
+		
+		for dir in directions:
+			var nx = x + int(dir.x)
+			var ny = y + int(dir.y)
+			
+			if nx > 0 and nx < grid_width-1 and ny > 0 and ny < grid_height-1:
+				if maze[nx][ny]:  # Se ainda não foi visitado (é parede)
+					neighbors.append(Vector2(nx, ny))
+		
+		if neighbors.size() > 0:
+			# Escolhe um vizinho aleatório
+			var next = neighbors[randi() % neighbors.size()]
+			var nx = int(next.x)
+			var ny = int(next.y)
+			
+			# Remove a parede entre a célula atual e o vizinho
+			var mid_x = (x + nx) / 2
+			var mid_y = (y + ny) / 2
+			
+			maze[mid_x][mid_y] = false  # Cria passagem
+			maze[nx][ny] = false  # Marca nova célula como caminho
+			
+			stack.append(Vector2(nx, ny))
+		else:
+			stack.pop_back()
+	
+	# Cria entrada e saída
+	maze[1][0] = false  # Entrada
+	maze[grid_width-2][grid_height-1] = false  # Saída
+	
+	# Cria as paredes físicas baseadas na matriz do labirinto
+	create_walls_from_maze(maze, grid_width, grid_height)
+
+func create_walls_from_maze(maze, width, height):
+	# Primeiro, cria paredes horizontais
+	for x in range(width-1):
+		for y in range(height):
+			# Se a célula atual é parede OU se há parede abaixo
+			if maze[x][y] or (y < height-1 and (maze[x][y+1] or maze[x][y])):
+				# Verifica se precisa de parede horizontal
+				var needs_horizontal_wall = false
+				
+				if y == 0 or y == height-1:
+					# Bordas sempre têm paredes
+					needs_horizontal_wall = true
+				elif maze[x][y] != maze[x][y-1]:
+					# Transição entre caminho e parede
+					needs_horizontal_wall = true
+				
+				if needs_horizontal_wall:
+					var pos_x = (x * maze_cell_size) - (floor_size / 2) + (maze_cell_size / 2)
+					var pos_z = (y * maze_cell_size) - (floor_size / 2)
+					
+					# Paredes horizontais
+					create_wall(
+						Vector3(pos_x, wall_height/2, pos_z),
+						Vector3(maze_cell_size, wall_height, 0.2)
+					)
+	
+	# Agora, cria paredes verticais
+	for x in range(width):
+		for y in range(height-1):
+			# Se a célula atual é parede OU se há parede à direita
+			if maze[x][y] or (x < width-1 and (maze[x+1][y] or maze[x][y])):
+				# Verifica se precisa de parede vertical
+				var needs_vertical_wall = false
+				
+				if x == 0 or x == width-1:
+					# Bordas sempre têm paredes
+					needs_vertical_wall = true
+				elif maze[x][y] != maze[x-1][y]:
+					# Transição entre caminho e parede
+					needs_vertical_wall = true
+				
+				if needs_vertical_wall:
+					var pos_x = (x * maze_cell_size) - (floor_size / 2)
+					var pos_z = (y * maze_cell_size) - (floor_size / 2) + (maze_cell_size / 2)
+					
+					# Paredes verticais
+					create_wall(
+						Vector3(pos_x, wall_height/2, pos_z),
+						Vector3(0.2, wall_height, maze_cell_size)
+					)
+
 func add_external_walls():
 	var half_size = floor_size / 2.0
 	
+	# Paredes externas (bordas do labirinto)
 	# Norte
-	create_wall(Vector3(0, wall_height/2, -half_size), Vector3(floor_size, wall_height, 0.5))
+	create_wall(
+		Vector3(0, wall_height/2, -half_size),
+		Vector3(floor_size, wall_height, 0.5)
+	)
 	# Sul
-	create_wall(Vector3(0, wall_height/2, half_size), Vector3(floor_size, wall_height, 0.5))
+	create_wall(
+		Vector3(0, wall_height/2, half_size),
+		Vector3(floor_size, wall_height, 0.5)
+	)
 	# Leste
-	create_wall(Vector3(-half_size, wall_height/2, 0), Vector3(0.5, wall_height, floor_size))
+	create_wall(
+		Vector3(-half_size, wall_height/2, 0),
+		Vector3(0.5, wall_height, floor_size)
+	)
 	# Oeste
-	create_wall(Vector3(half_size, wall_height/2, 0), Vector3(0.5, wall_height, floor_size))
-
-func generate_maze():
-	var cells_x = int(floor_size / maze_cell_size)
-	var cells_z = int(floor_size / maze_cell_size)
-	
-	var maze = []
-	for x in range(cells_x):
-		maze.append([])
-		for z in range(cells_z):
-			var is_wall = x == 0 or x == cells_x-1 or z == 0 or z == cells_z-1 or randf() < complexity
-			maze[x].append(1 if is_wall else 0)
-	
-	create_main_paths(maze)
-	
-	for x in range(cells_x):
-		for z in range(cells_z):
-			if maze[x][z] == 1:
-				var pos_x = (x * maze_cell_size) - (floor_size / 2) + (maze_cell_size / 2)
-				var pos_z = (z * maze_cell_size) - (floor_size / 2) + (maze_cell_size / 2)
-				create_wall(Vector3(pos_x, wall_height/2, pos_z), Vector3(maze_cell_size, wall_height, 0.2))
-
-func create_main_paths(maze):
-	var cells_x = maze.size()
-	var cells_z = maze[0].size()
-	
-	var middle_z = int(cells_z / 2)
-	for x in range(2, cells_x - 2):
-		maze[x][middle_z] = 0
-		if x % 6 == 0 and middle_z > 2 and middle_z < cells_z - 3:
-			for offset in range(-2, 3):
-				maze[x][middle_z + offset] = 0
-	
-	var middle_x = int(cells_x / 2)
-	for z in range(2, cells_z - 2):
-		maze[middle_x][z] = 0
-		if z % 8 == 0 and middle_x > 2 and middle_x < cells_x - 3:
-			for offset in range(-2, 3):
-				maze[middle_x + offset][z] = 0
-	
-	maze[2][2] = 0
-	maze[cells_x - 3][cells_z - 3] = 0
+	create_wall(
+		Vector3(half_size, wall_height/2, 0),
+		Vector3(0.5, wall_height, floor_size)
+	)
 
 func create_wall(position: Vector3, size: Vector3):
 	var wall = wall_scene.instantiate()
