@@ -46,9 +46,9 @@ func process_physics(delta: float) -> void:
 	else:
 		print("StateMachine: Nenhum estado atual!")
 
-func process_input(event: InputEvent) -> void:
+func process_input(event: InputEvent, player = null) -> void:
 	if current_state:
-		current_state.process_input(event)
+		current_state.process_input(event, player)
 
 func change_state(new_state_name: String) -> void:
 	if not new_state_name in states:
