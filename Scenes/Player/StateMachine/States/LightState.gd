@@ -11,7 +11,7 @@ var deceleration: float = 15.0
 
 func enter() -> void:
 	print("LightState: Entrou no estado LEVE")
-	
+	player.set_feedback_text("Entrou no modo leve")
 	# Configura propriedades físicas
 	player.set_mass(player.mass_light)
 	player.gravity_scale = 0.7
@@ -44,7 +44,7 @@ func process_physics(delta: float) -> void:
 	if player.is_grounded:
 		jump_count = 0
 
-func process_input(event: InputEvent) -> void:
+func process_input(event: InputEvent, player:CharacterBody3D) -> void:
 	if event.is_action_pressed("toggle_heavy"):
 		print("LightState: Solicitando mudança para HeavyState")
 		transitioned.emit(self, "HeavyState")

@@ -18,5 +18,5 @@ func exit() -> void:
 func process_physics(_delta: float) -> void:
 	pass
 
-func process_input(_event: InputEvent) -> void:
+func process_input(_event: InputEvent, _player : CharacterBody3D) -> void:
 	pass

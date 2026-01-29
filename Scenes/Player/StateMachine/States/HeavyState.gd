@@ -8,12 +8,13 @@ var jump_velocity: float = 8.0
 var move_speed: float = 4.0
 var acceleration: float = 15.0
 var deceleration: float = 20.0
-var break_force: float = 500.0
+#var break_force: float = 500.0
 var can_break: bool = true
 
 func enter() -> void:
 	print("HeavyState: Entrou no estado PESADO")
-	
+	player.set_feedback_text("Entrou no modo pesado")
+
 	# Configura propriedades físicas
 	player.set_mass(player.mass_heavy)
 	player.gravity_scale = 1.5
@@ -52,7 +53,7 @@ func process_physics(delta: float) -> void:
 	if player.is_grounded and can_break:
 		check_fragile_floors()
 
-func process_input(event: InputEvent) -> void:
+func process_input(event: InputEvent, player: CharacterBody3D) -> void:
 	if event.is_action_pressed("toggle_light"):
 		print("HeavyState: Solicitando mudança para LightState")
 		transitioned.emit(self, "LightState")
@@ -74,7 +75,7 @@ func check_fragile_floors() -> void:
 	if result:
 		var collider = result.collider
 		if collider.is_in_group("fragile_floor"):
-			if abs(player.air_kinetic_energy) > break_force and is_breaking:
+			if abs(player.air_kinetic_energy) > collider.break_force and is_breaking:
 				break_floor(collider)
 
 func break_floor(floor_node: Node) -> void:
@@ -82,7 +83,7 @@ func break_floor(floor_node: Node) -> void:
 	if can_break:
 		print("Piso frágil quebrado!")
 		can_break = false
-		floor_node.queue_free()
+		floor_node.break_self()
 		# Cooldown para próxima quebra
 		await get_tree().create_timer(0.5).timeout
 		can_break = true
@@ -103,5 +104,5 @@ func break_fragile_floor() -> void:
 	if result:
 		var collider = result.collider
 		if collider.is_in_group("fragile_floor"):
-			if abs(player.air_kinetic_energy) > break_force and is_breaking:
+			if abs(player.air_kinetic_energy) > collider.break_force and is_breaking:
 				break_floor(collider)
