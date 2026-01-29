@@ -1,24 +1,15 @@
-[gd_scene load_steps=5 format=3 uid="uid://torre_andar_labirinto"]
+[gd_scene load_steps=4 format=3 uid="uid://beqim0faybbwe"]
 
-[ext_resource type="Script" path="res://Scenes/TowerFloor/TowerFloor.gd" id="1_script"]
-[ext_resource type="PackedScene" path="res://Scenes/TowerFloor/Wall.tscn" id="2_wall"]
-[ext_resource type="PackedScene" path="res://Scenes/Floor/floor.tscn" id="3_fragile"]
-
-[sub_resource type="BoxMesh" id="BoxMesh_floor"]
-size = Vector3(100, 0.3, 100)
+[ext_resource type="Script" uid="uid://clm4b68edsqup" path="res://Scenes/TowerFloor/TowerFloor.gd" id="1_script"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_floor"]
 size = Vector3(100, 0.3, 100)
 
+[sub_resource type="BoxMesh" id="BoxMesh_floor"]
+size = Vector3(100, 0.3, 100)
+
 [node name="TowerFloor" type="Node3D"]
 script = ExtResource("1_script")
-floor_size = 100
-maze_cell_size = 10
-wall_height = 45
-ceiling_height = 45
-fragile_floor_chance = 0.2
-num_floors = 3
-floor_spacing = 10
 
 [node name="MainFloor" type="StaticBody3D" parent="."]
 
@@ -27,7 +18,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0)
 shape = SubResource("BoxShape3D_floor")
 
 [node name="FloorMesh" type="MeshInstance3D" parent="MainFloor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 mesh = SubResource("BoxMesh_floor")
 
 [node name="Ceiling" type="StaticBody3D" parent="."]

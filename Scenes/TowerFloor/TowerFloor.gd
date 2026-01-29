@@ -3,7 +3,7 @@ extends Node3D
 @export var floor_size: float = 100
 @export var maze_cell_size: float = 10
 @export var wall_height: float = 45
-@export var ceiling_height: float = 45
+@export var ceiling_height: float = 45 
 @export var fragile_floor_chance: float = 0.2
 @export var num_floors: int = 3  # Número de andares
 @export var floor_spacing: float = 10  # Espaço entre andares
@@ -24,7 +24,7 @@ func generate_tower_floor():
 	$Ceiling.transform.origin = Vector3(0, ceiling_height, 0)
 
 func generate_maze():
-	var grid_width = int(floor_size / maze_cell_size)
+	var grid_width  = int(floor_size / maze_cell_size)
 	var grid_height = int(floor_size / maze_cell_size)
 	
 	# Cria uma matriz para o labirinto (true = parede, false = caminho)

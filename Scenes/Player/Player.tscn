@@ -1,14 +1,15 @@
-[gd_scene load_steps=7 format=3 uid="uid://b1n85n6q7xwuv"]
+[gd_scene load_steps=8 format=3 uid="uid://b1n85n6q7xwuv"]
 
 [ext_resource type="Script" uid="uid://bt556s0laovmu" path="res://Scenes/Player/Player.gd" id="1"]
 [ext_resource type="Script" uid="uid://cjhty8q6gq15f" path="res://Scenes/Player/Components/CameraController.gd" id="2"]
 [ext_resource type="Script" uid="uid://byfak73j6i8ea" path="res://Scenes/Player/StateMachine/States/StateMachine.gd" id="3"]
+[ext_resource type="PackedScene" uid="uid://ckwliau01pymi" path="res://assets/models/r_smooth_open.glb" id="3_4wape"]
 [ext_resource type="Script" uid="uid://ttlki2nu3a8h" path="res://Scenes/Player/StateMachine/States/LightState.gd" id="4"]
 [ext_resource type="Script" uid="uid://dh6sstx8yad1o" path="res://Scenes/Player/StateMachine/States/HeavyState.gd" id="5"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1"]
-radius = 0.4
-height = 1.8
+radius = 0.04296875
+height = 0.19090882
 
 [node name="Player" type="CharacterBody3D"]
 script = ExtResource("1")
@@ -26,6 +27,12 @@ script = ExtResource("2")
 
 [node name="Camera3D" type="Camera3D" parent="CameraPivot/CameraController"]
 current = true
+
+[node name="mao_r" parent="CameraPivot/CameraController/Camera3D" instance=ExtResource("3_4wape")]
+transform = Transform3D(1.9106855e-15, 4.371139e-08, -1, 1, -4.371139e-08, 0, -4.371139e-08, -1, -4.371139e-08, 0.15855767, -0.3225239, -0.36786494)
+
+[node name="mao_e" parent="CameraPivot/CameraController/Camera3D" instance=ExtResource("3_4wape")]
+transform = Transform3D(-7.6286794e-10, -4.370473e-08, 1, -0.9998477, 0.017452383, 0, -0.017452383, -0.9998477, -4.371139e-08, -0.16389853, -0.31002867, -0.3668827)
 
 [node name="SpotLight3D" type="SpotLight3D" parent="CameraPivot/CameraController"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.46679568, 0)

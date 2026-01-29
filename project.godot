@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Density Shift"
-run/main_scene="res://Scenes/Tutorial/TestLevel.tscn"
+run/main_scene="uid://bxn7uqa5q2q2w"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
 
