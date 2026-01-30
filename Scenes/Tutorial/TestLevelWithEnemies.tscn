@@ -1,0 +1,93 @@
+[gd_scene format=3 uid="uid://hj0uean0qj4s"]
+
+[ext_resource type="Script" uid="uid://clm4b68edsqup" path="res://Scenes/TowerFloor/TowerFloor.gd" id="1"]
+[ext_resource type="PackedScene" uid="uid://b1n85n6q7xwuv" path="res://Scenes/Player/Player.tscn" id="2"]
+[ext_resource type="PackedScene" uid="uid://c52tg8vdbewgn" path="res://Scenes/Portal/Portal.tscn" id="3"]
+[ext_resource type="PackedScene" uid="uid://bq6tygf4bpel6" path="res://Scenes/Enemies/FloatingEnemyBall.tscn" id="4"]
+[ext_resource type="Script" uid="uid://c2jqouymm31bb" path="res://Scenes/Enemies/EnemySpawner.gd" id="5"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_chao"]
+size = Vector3(200, 0.5, 200)
+
+[sub_resource type="BoxMesh" id="BoxMesh_chao"]
+size = Vector3(200, 0.5, 200)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_parede"]
+size = Vector3(200, 50, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_parede"]
+size = Vector3(200, 50, 1)
+
+[node name="TestLevelWithEnemies" type="Node3D"]
+script = ExtResource("1")
+portal_scene = ExtResource("3")
+
+[node name="chao" type="StaticBody3D" parent="."]
+collision_layer = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="chao"]
+shape = SubResource("BoxShape3D_chao")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="chao"]
+mesh = SubResource("BoxMesh_chao")
+
+[node name="ParedeNorte" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 25, -100)
+collision_layer = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ParedeNorte"]
+shape = SubResource("BoxShape3D_parede")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="ParedeNorte"]
+mesh = SubResource("BoxMesh_parede")
+
+[node name="ParedeSul" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 25, 100)
+collision_layer = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ParedeSul"]
+shape = SubResource("BoxShape3D_parede")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="ParedeSul"]
+mesh = SubResource("BoxMesh_parede")
+
+[node name="ParedeLeste" type="StaticBody3D" parent="."]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -100, 25, 0)
+collision_layer = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ParedeLeste"]
+shape = SubResource("BoxShape3D_parede")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="ParedeLeste"]
+mesh = SubResource("BoxMesh_parede")
+
+[node name="ParedeOeste" type="StaticBody3D" parent="."]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 100, 25, 0)
+collision_layer = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ParedeOeste"]
+shape = SubResource("BoxShape3D_parede")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="ParedeOeste"]
+mesh = SubResource("BoxMesh_parede")
+
+[node name="Player" parent="." instance=ExtResource("2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 13.646093, 18.567001)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 50, 0)
+light_energy = 1.5
+shadow_enabled = true
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 30, 0)
+light_energy = 0.8
+omni_range = 100.0
+
+[node name="EnemySpawner" type="Node3D" parent="."]
+script = ExtResource("5")
+enemy_scene = ExtResource("4")
+spawn_radius = 80.0
+max_spawn_height = 30.0
+spawn_near_player = false
+player_proximity_range = 10.0
