@@ -15,13 +15,6 @@ extends Node3D
 @export var portal_scene: PackedScene
 @export var spawn_portal_on_top_floor: bool = true
 @export var portal_height_offset: float = 1.5
-@export var enemy_scene: PackedScene
-@export var enable_enemies: bool = true
-@export var enemies_per_floor: int = 3
-@export var enemy_max_per_level: int = 8
-@export var enemy_spawn_height_offset: float = 2.0
-@export var enemy_detection_range: float = 25.0
-@export var enemy_min_spawn_height: float = 8.0
 
 @onready var floor_scene = preload("res://Scenes/Floor/floor.tscn")
 @onready var wall_scene = preload("res://Scenes/TowerFloor/Wall.tscn")
@@ -30,14 +23,11 @@ var victory_portal: Area3D = null
 var external_walls = []
 var wall_collision_shapes = []
 var spawned_floors_by_level = []
-var enemies_by_level = []
 
 func _ready():
 	spawned_floors_by_level = []
-	enemies_by_level = []
 	for i in range(num_floors):
 		spawned_floors_by_level.append([])
-		enemies_by_level.append([])
 	
 	find_external_walls()
 	
@@ -97,9 +87,6 @@ func generate_floor_level(floor_level: int):
 	
 	if generate_maze:
 		generate_maze_walls_for_level(floor_y, floor_level)
-	
-	if enable_enemies and enemy_scene:
-		spawn_enemies_for_level(floor_level, floor_y)
 
 func generate_floors_grid_for_level(floor_y: float, floor_level: int):
 	var floors_per_side = int(floor_grid_size / floor_spacing)
@@ -264,53 +251,6 @@ func spawn_wall(position: Vector3, size: Vector3, is_vertical: bool, floor_level
 	
 	add_child(wall_instance)
 
-func spawn_enemies_for_level(floor_level: int, floor_y: float):
-	if not enable_enemies or enemy_scene == null:
-		return
-	
-	var valid_floors = []
-	for floor_instance in spawned_floors_by_level[floor_level]:
-		if is_instance_valid(floor_instance) and floor_instance.is_inside_tree():
-			if floor_instance.Floor_type == 0:
-				valid_floors.append(floor_instance)
-	
-	if valid_floors.size() == 0:
-		return
-	
-	var enemies_to_spawn = min(enemies_per_floor, enemy_max_per_level, valid_floors.size())
-	
-	for i in range(enemies_to_spawn):
-		if valid_floors.size() == 0:
-			break
-		
-		var random_index = randi() % valid_floors.size()
-		var spawn_floor = valid_floors[random_index]
-		
-		var spawn_position = Vector3(
-			spawn_floor.global_transform.origin.x,
-			max(floor_y + enemy_spawn_height_offset, enemy_min_spawn_height),
-			spawn_floor.global_transform.origin.z
-		)
-		
-		spawn_position.x += randf_range(-3.0, 3.0)
-		spawn_position.z += randf_range(-3.0, 3.0)
-		
-		var enemy = enemy_scene.instantiate()
-		add_child(enemy)
-		enemy.global_transform.origin = spawn_position
-		
-		if enemy.has_method("set_detection_range"):
-			enemy.set_detection_range(enemy_detection_range)
-		
-		if enemy.has_method("set_lifetime"):
-			enemy.set_lifetime(60.0)
-		
-		enemy.add_to_group("enemies")
-		
-		enemies_by_level[floor_level].append(enemy)
-		
-		valid_floors.remove_at(random_index)
-
 func spawn_victory_portal():
 	var target_floor_level: int
 	if spawn_portal_on_top_floor:
@@ -382,16 +322,3 @@ func show_victory_screen():
 	)
 	
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-
-func clear_all_enemies():
-	for floor_level in range(enemies_by_level.size()):
-		for enemy in enemies_by_level[floor_level]:
-			if is_instance_valid(enemy):
-				enemy.queue_free()
-		enemies_by_level[floor_level].clear()
-
-func get_total_enemy_count() -> int:
-	var total = 0
-	for floor_level in enemies_by_level:
-		total += floor_level.size()
-	return total
