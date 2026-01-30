@@ -1,12 +1,13 @@
 [gd_scene load_steps=3 format=3 uid="uid://45ybbt6u3xub"]
 
-[sub_resource type="BoxMesh" id="BoxMesh_wall"]
-size = Vector3(1, 5, 0.2)
-
 [sub_resource type="BoxShape3D" id="BoxShape3D_wall"]
 size = Vector3(1, 5, 0.2)
 
+[sub_resource type="BoxMesh" id="BoxMesh_wall"]
+size = Vector3(1, 5, 0.2)
+
 [node name="Wall" type="StaticBody3D"]
+collision_layer = 2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("BoxShape3D_wall")
