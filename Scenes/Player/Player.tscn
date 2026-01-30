@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://b1n85n6q7xwuv"]
+[gd_scene format=3 uid="uid://b1n85n6q7xwuv"]
 
 [ext_resource type="Script" uid="uid://bt556s0laovmu" path="res://Scenes/Player/Player.gd" id="1"]
 [ext_resource type="Script" uid="uid://cjhty8q6gq15f" path="res://Scenes/Player/Components/CameraController.gd" id="2"]
@@ -15,16 +15,25 @@ height = 0.19090882
 default_font_size = 30
 
 [sub_resource type="FontFile" id="FontFile_4wape"]
-cache/0/30/0/ascent = 0.0
-cache/0/30/0/descent = 0.0
-cache/0/30/0/underline_position = 0.0
-cache/0/30/0/underline_thickness = 0.0
-cache/0/30/0/scale = 1.0
+cache/0/variation_coordinates = {}
+cache/0/face_index = 0
+cache/0/embolden = 0.0
+cache/0/transform = Transform2D(1, 0, 0, 1, 0, 0)
+cache/0/spacing_top = 0
+cache/0/spacing_bottom = 0
+cache/0/spacing_space = 0
+cache/0/spacing_glyph = 0
+cache/0/baseline_offset = 0.0
 cache/0/16/0/ascent = 0.0
 cache/0/16/0/descent = 0.0
 cache/0/16/0/underline_position = 0.0
 cache/0/16/0/underline_thickness = 0.0
 cache/0/16/0/scale = 1.0
+cache/0/30/0/ascent = 0.0
+cache/0/30/0/descent = 0.0
+cache/0/30/0/underline_position = 0.0
+cache/0/30/0/underline_thickness = 0.0
+cache/0/30/0/scale = 1.0
 
 [sub_resource type="LabelSettings" id="LabelSettings_t26db"]
 font = SubResource("FontFile_4wape")
@@ -32,32 +41,32 @@ font_size = 30
 outline_size = 6
 outline_color = Color(0, 0, 0, 1)
 
-[node name="Player" type="CharacterBody3D"]
+[node name="Player" type="CharacterBody3D" unique_id=821174787]
 script = ExtResource("1")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=188554879]
 shape = SubResource("CapsuleShape3D_1")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1166824000]
 
-[node name="CameraPivot" type="Node3D" parent="."]
+[node name="CameraPivot" type="Node3D" parent="." unique_id=839948217]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.46679568, 0)
 
-[node name="CameraController" type="Node3D" parent="CameraPivot"]
+[node name="CameraController" type="Node3D" parent="CameraPivot" unique_id=1053369542]
 script = ExtResource("2")
 
-[node name="Camera3D" type="Camera3D" parent="CameraPivot/CameraController"]
+[node name="Camera3D" type="Camera3D" parent="CameraPivot/CameraController" unique_id=738533304]
 current = true
 
-[node name="mao_r" parent="CameraPivot/CameraController/Camera3D" instance=ExtResource("3_4wape")]
-transform = Transform3D(1.9106855e-15, 4.371139e-08, -1, 1, -4.371139e-08, 0, -4.371139e-08, -1, -4.371139e-08, 0.15855767, -0.3225239, -0.36786494)
-
-[node name="mao_e" parent="CameraPivot/CameraController/Camera3D" instance=ExtResource("3_4wape")]
+[node name="mao_e" parent="CameraPivot/CameraController/Camera3D" unique_id=1312659879 instance=ExtResource("3_4wape")]
 transform = Transform3D(-7.6286794e-10, -4.370473e-08, 1, -0.9998477, 0.017452383, 0, -0.017452383, -0.9998477, -4.371139e-08, -0.16389853, -0.31002867, -0.3668827)
 
-[node name="CanvasLayer" type="CanvasLayer" parent="CameraPivot/CameraController/Camera3D"]
+[node name="mao_r" parent="CameraPivot/CameraController/Camera3D" unique_id=2138386208 instance=ExtResource("3_4wape")]
+transform = Transform3D(1.9106855e-15, 4.371139e-08, -1, 1, -4.371139e-08, 0, -4.371139e-08, -1, -4.371139e-08, 0.15855767, -0.3225239, -0.36786494)
 
-[node name="Dialog" type="Control" parent="CameraPivot/CameraController/Camera3D/CanvasLayer"]
+[node name="CanvasLayer" type="CanvasLayer" parent="CameraPivot/CameraController/Camera3D" unique_id=1078636541]
+
+[node name="Dialog" type="Control" parent="CameraPivot/CameraController/Camera3D/CanvasLayer" unique_id=1330477340]
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
@@ -67,7 +76,7 @@ anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Panel" type="Panel" parent="CameraPivot/CameraController/Camera3D/CanvasLayer/Dialog"]
+[node name="Panel" type="Panel" parent="CameraPivot/CameraController/Camera3D/CanvasLayer/Dialog" unique_id=194891167]
 modulate = Color(5.8598466, 2.2904582, 2.2745934, 0.50980395)
 layout_mode = 1
 anchors_preset = 15
@@ -80,7 +89,7 @@ offset_bottom = 240.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Label" type="Label" parent="CameraPivot/CameraController/Camera3D/CanvasLayer/Dialog"]
+[node name="Label" type="Label" parent="CameraPivot/CameraController/Camera3D/CanvasLayer/Dialog" unique_id=491961248]
 layout_mode = 0
 offset_left = -446.0
 offset_top = -228.0
@@ -92,7 +101,7 @@ label_settings = SubResource("LabelSettings_t26db")
 autowrap_mode = 2
 justification_flags = 171
 
-[node name="Button" type="Button" parent="CameraPivot/CameraController/Camera3D/CanvasLayer/Dialog"]
+[node name="Button" type="Button" parent="CameraPivot/CameraController/Camera3D/CanvasLayer/Dialog" unique_id=1907357588]
 layout_mode = 0
 offset_left = -186.0
 offset_top = 114.0
@@ -100,32 +109,32 @@ offset_right = 171.0
 offset_bottom = 172.0
 text = "Próximo"
 
-[node name="PlayerFeedback" type="Control" parent="CameraPivot/CameraController/Camera3D/CanvasLayer"]
+[node name="PlayerFeedback" type="Control" parent="CameraPivot/CameraController/Camera3D/CanvasLayer" unique_id=124940750]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="LabelFeedback" type="Label" parent="CameraPivot/CameraController/Camera3D/CanvasLayer/PlayerFeedback"]
+[node name="LabelFeedback" type="Label" parent="CameraPivot/CameraController/Camera3D/CanvasLayer/PlayerFeedback" unique_id=1377712263]
 layout_mode = 0
 offset_right = 168.0
 offset_bottom = 23.0
 
-[node name="SpotLight3D" type="SpotLight3D" parent="CameraPivot/CameraController"]
+[node name="SpotLight3D" type="SpotLight3D" parent="CameraPivot/CameraController" unique_id=1320190351]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.46679568, 0)
 light_color = Color(1, 1, 0.050980393, 1)
 light_energy = 13.041
 spot_range = 50.999
 spot_angle = 29.06
 
-[node name="StateMachine" type="Node" parent="."]
+[node name="StateMachine" type="Node" parent="." unique_id=1074401285]
 script = ExtResource("3")
 initial_state_path = NodePath("HeavyState")
 
-[node name="LightState" type="Node" parent="StateMachine"]
+[node name="LightState" type="Node" parent="StateMachine" unique_id=2025646224]
 script = ExtResource("4")
 
-[node name="HeavyState" type="Node" parent="StateMachine"]
+[node name="HeavyState" type="Node" parent="StateMachine" unique_id=203610399]
 script = ExtResource("5")
 
 [connection signal="pressed" from="CameraPivot/CameraController/Camera3D/CanvasLayer/Dialog/Button" to="." method="_on_button_pressed"]
