@@ -38,6 +38,9 @@ var kinetic_energy: float:
 	get: return (current_mass * (velocity.y*velocity.y))/2
 
 func _ready():
+	add_to_group("player")  # ADICIONE ESTA LINHA
+	print("Player: Adicionado ao grupo 'player'")
+	
 	mao_start_posY = mao_r.position.y
 	print("mao start: ",mao_start_posY)
 	# Inicializa a máquina de estados
@@ -45,6 +48,10 @@ func _ready():
 	state_machine.init(self)
 	current_mass = mass_light
 	print("Player pronto")
+	
+	# DEBUG: Mostrar informações de colisão
+	print("Player - collision_layer: ", collision_layer)
+	print("Player - collision_mask: ", collision_mask)
 
 func _physics_process(delta):
 	dialog.visible = is_dialog_active
