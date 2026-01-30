@@ -27,8 +27,9 @@ var mao_start_posY : int
 
 var expected_input:String
 var is_typing = false
-var is_dialog_active = true
+var is_dialog_active = false
 var actual_message : String
+
 signal button_pressed()
 # Getter para uso nos estados
 var is_grounded: bool:
@@ -37,6 +38,9 @@ var is_grounded: bool:
 var kinetic_energy: float:
 	get: return (current_mass * (velocity.y*velocity.y))/2
 
+var typing : bool:
+	get: return is_typing
+	
 func _ready():
 	add_to_group("player")  # ADICIONE ESTA LINHA
 	print("Player: Adicionado ao grupo 'player'")
@@ -93,6 +97,9 @@ func get_move_direction() -> Vector3:
 	#print("Input: ", input_dir)  # Debug
 	return (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 
+func set_move_speed(val:float):
+	move_speed = val
+
 func can_jump() -> bool:
 	return is_on_floor()
 
@@ -105,34 +112,41 @@ func respawn():
 	velocity = Vector3.ZERO
 	print("Player respawned!")
 
+func show_message(text:String, show_btn:bool, action:String):
+	if not typing:
+		set_dialog_text(text)
+		show_btn(show_btn)
+		hide_dialog_by_input(action)
+		
 func set_dialog_text(texto : String):
 	is_dialog_active = true
 	actual_message = texto
+	label.text = ""
+	
+	is_typing = true
 	await type_text(texto, label)
+	is_typing = false
 	
 func set_feedback_text(texto: String):
 	label_feedback.visible = true
 	await type_text(texto, label_feedback)
 	await get_tree().create_timer(3.0).timeout
 	label_feedback.visible = false
-	
+
 func type_text(text:String, selected_label):
-	is_typing = true
 	selected_label.text = ""
-	
 	for i in range(text.length()):
 		if selected_label.text != actual_message:
 			selected_label.text += text[i]
 			await get_tree().create_timer(typing_speed).timeout
 	
-	is_typing =false
 
 func hide_dialog(by_btn:bool):
-	if !by_btn:
-		is_dialog_active = false
-		expected_input = ""
-
 	if is_typing:
+		if !by_btn:
+			is_dialog_active = false
+			expected_input = ""
+			
 		label.text = actual_message
 		is_typing = false
 	else:
@@ -147,3 +161,17 @@ func show_btn(visibility:bool):
 func _on_button_pressed() -> void:
 	button_pressed.emit()
 	hide_dialog(true)
+
+func detect_collision(group,action:Callable) -> void:
+	var space_state = get_world_3d().direct_space_state
+	var from = global_position
+	var to = from - Vector3(0, 1.5, 0)
+	var query = PhysicsRayQueryParameters3D.create(from, to)
+	query.exclude = [self]
+	
+	var is_breaking = Input.is_action_pressed("break_floor")
+	var result = space_state.intersect_ray(query)
+	if result:
+		var collider = result.collider
+		if collider.is_in_group(group):
+			action.call()

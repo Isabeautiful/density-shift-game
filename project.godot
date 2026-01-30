@@ -15,9 +15,13 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 [application]
 
 config/name="Density Shift"
-run/main_scene="uid://b604k8dnbdi4f"
+run/main_scene="uid://blhqhye30tr1t"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
+
+[filesystem]
+
+import/blender/enabled=false
 
 [input]
 

@@ -27,6 +27,8 @@ extends Node3D
 @export var spawn_portal_on_top_floor: bool = true
 @export var portal_height_offset: float = 1.5  # Altura acima do piso
 
+@onready var audio_stream_player: AudioStreamPlayer = $AudioStreamPlayer
+
 # Referência ao portal instanciado
 var victory_portal: Area3D = null
 
@@ -40,6 +42,7 @@ var wall_collision_shapes = []
 var spawned_floors_by_level = []
 
 func _ready():
+	audio_stream_player.play()
 	# Inicializar array para rastrear pisos
 	spawned_floors_by_level = []
 	for i in range(num_floors):

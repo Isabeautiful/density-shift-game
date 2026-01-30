@@ -112,10 +112,10 @@ func desabilitar_culling_mesh(mesh_i):
 	material.cull_mode = BaseMaterial3D.CULL_DISABLED
 
 func show_dialog(texto:String,show_btn:bool,action:String="", funcao : Callable = Callable()):
-	player.set_dialog_text(texto)
-	player.show_btn(show_btn)
-	player.hide_dialog_by_input(action)
-	
+	#player.set_dialog_text(texto)
+	#player.show_btn(show_btn)
+	#player.hide_dialog_by_input(action)
+	player.show_message(texto,show_btn,action)
 	if funcao != Callable():
 		player.button_pressed.connect(funcao)
 	
