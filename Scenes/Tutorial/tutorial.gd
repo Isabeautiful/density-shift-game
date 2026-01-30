@@ -4,6 +4,7 @@ extends Node3D
 @onready var player: CharacterBody3D = $Player
 @onready var quebraveis: Node3D = $Quebraveis
 @export var fragile_floor_scene : PackedScene
+@onready var music: AudioStreamPlayer = $AudioStreamPlayer
 
 var player_start_pos : Vector3
 var chao_position : Vector3
@@ -22,6 +23,7 @@ var already_shown_dialog_leve = false
 var already_shown_break_tutorial = false
 
 func _ready() -> void:
+	music.stream.loop = true
 	player_start_pos = player.position - player_offset
 	inicio()
 	gerar_limites()

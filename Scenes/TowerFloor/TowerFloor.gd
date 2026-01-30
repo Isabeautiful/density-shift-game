@@ -18,12 +18,6 @@ extends Node3D
 
 @onready var floor_scene = preload("res://Scenes/Floor/floor.tscn")
 @onready var wall_scene = preload("res://Scenes/TowerFloor/Wall.tscn")
-
-# Configurações do portal
-@export var portal_scene: PackedScene
-@export var spawn_portal_on_top_floor: bool = true
-@export var portal_height_offset: float = 1.5  # Altura acima do piso
-
 @onready var audio_stream_player: AudioStreamPlayer = $AudioStreamPlayer
 
 # Referência ao portal instanciado
@@ -33,6 +27,7 @@ var wall_collision_shapes = []
 var spawned_floors_by_level = []
 
 func _ready():
+	audio_stream_player.stream.loop = true
 	audio_stream_player.play()
 	# Inicializar array para rastrear pisos
 	spawned_floors_by_level = []
@@ -311,24 +306,5 @@ func _on_player_reached_portal():
 	show_victory_screen()
 
 func show_victory_screen():
-	get_tree().paused = true
-	
-	var victory_label = Label.new()
-	victory_label.text = "VITÓRIA!\nFase Concluída!\n\nPressione R para reiniciar"
-	victory_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	victory_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	victory_label.add_theme_font_size_override("font_size", 48)
-	victory_label.add_theme_color_override("font_color", Color(0, 1, 1))
-	victory_label.size = Vector2(800, 600)
-	
-	var canvas = CanvasLayer.new()
-	canvas.layer = 100
-	canvas.add_child(victory_label)
-	add_child(canvas)
-	
-	victory_label.position = Vector2(
-		get_viewport().size.x / 2 - victory_label.size.x / 2,
-		get_viewport().size.y / 2 - victory_label.size.y / 2
-	)
-	
+	get_tree().change_scene_to_file("res://Scenes/Control/Victory/Victory.tscn")
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)

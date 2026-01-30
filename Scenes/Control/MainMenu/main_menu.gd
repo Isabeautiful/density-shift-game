@@ -12,6 +12,8 @@ var duracao = 0.5
 @onready var audio_stream_player: AudioStreamPlayer = $music
 var num_Play = 0
 
+func _ready() -> void:
+	audio_stream_player.stream.loop = true
 func _process(_delta: float) -> void:
 	btn_hover(jogar)
 	btn_hover(tutorial)

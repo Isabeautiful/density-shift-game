@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://c52tg8vdbewgn" path="res://Scenes/Portal/Portal.tscn" id="3"]
 [ext_resource type="PackedScene" uid="uid://bq6tygf4bpel6" path="res://Scenes/Enemies/FloatingEnemyBall.tscn" id="4"]
 [ext_resource type="Script" uid="uid://c2jqouymm31bb" path="res://Scenes/Enemies/EnemySpawner.gd" id="5"]
+[ext_resource type="AudioStream" uid="uid://l6rtfug3p3fp" path="res://assets/audio/music/Music_EuropaIce_Extended.mp3" id="6_7mi8q"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_chao"]
 size = Vector3(200, 0.5, 200)
@@ -18,76 +19,79 @@ size = Vector3(200, 50, 1)
 [sub_resource type="BoxMesh" id="BoxMesh_parede"]
 size = Vector3(200, 50, 1)
 
-[node name="TestLevelWithEnemies" type="Node3D"]
+[node name="TestLevelWithEnemies" type="Node3D" unique_id=923819780]
 script = ExtResource("1")
 portal_scene = ExtResource("3")
 
-[node name="chao" type="StaticBody3D" parent="."]
+[node name="chao" type="StaticBody3D" parent="." unique_id=1910615010]
 collision_layer = 2
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="chao"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="chao" unique_id=957997358]
 shape = SubResource("BoxShape3D_chao")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="chao"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="chao" unique_id=660396265]
 mesh = SubResource("BoxMesh_chao")
 
-[node name="ParedeNorte" type="StaticBody3D" parent="."]
+[node name="ParedeNorte" type="StaticBody3D" parent="." unique_id=332232647]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 25, -100)
 collision_layer = 2
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="ParedeNorte"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ParedeNorte" unique_id=872279745]
 shape = SubResource("BoxShape3D_parede")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="ParedeNorte"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="ParedeNorte" unique_id=1859251752]
 mesh = SubResource("BoxMesh_parede")
 
-[node name="ParedeSul" type="StaticBody3D" parent="."]
+[node name="ParedeSul" type="StaticBody3D" parent="." unique_id=1335625090]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 25, 100)
 collision_layer = 2
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="ParedeSul"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ParedeSul" unique_id=1526969078]
 shape = SubResource("BoxShape3D_parede")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="ParedeSul"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="ParedeSul" unique_id=1890806636]
 mesh = SubResource("BoxMesh_parede")
 
-[node name="ParedeLeste" type="StaticBody3D" parent="."]
+[node name="ParedeLeste" type="StaticBody3D" parent="." unique_id=99494216]
 transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -100, 25, 0)
 collision_layer = 2
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="ParedeLeste"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ParedeLeste" unique_id=1803189628]
 shape = SubResource("BoxShape3D_parede")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="ParedeLeste"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="ParedeLeste" unique_id=1574115177]
 mesh = SubResource("BoxMesh_parede")
 
-[node name="ParedeOeste" type="StaticBody3D" parent="."]
+[node name="ParedeOeste" type="StaticBody3D" parent="." unique_id=690907934]
 transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 100, 25, 0)
 collision_layer = 2
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="ParedeOeste"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ParedeOeste" unique_id=1752542370]
 shape = SubResource("BoxShape3D_parede")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="ParedeOeste"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="ParedeOeste" unique_id=1005619430]
 mesh = SubResource("BoxMesh_parede")
 
-[node name="Player" parent="." instance=ExtResource("2")]
+[node name="Player" parent="." unique_id=517746909 instance=ExtResource("2")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 13.646093, 18.567001)
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=2020660143]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 50, 0)
 light_energy = 1.5
 shadow_enabled = true
 
-[node name="OmniLight3D" type="OmniLight3D" parent="."]
+[node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=2047404178]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 30, 0)
 light_energy = 0.8
 omni_range = 100.0
 
-[node name="EnemySpawner" type="Node3D" parent="."]
+[node name="EnemySpawner" type="Node3D" parent="." unique_id=697854246]
 script = ExtResource("5")
 enemy_scene = ExtResource("4")
 spawn_radius = 80.0
 max_spawn_height = 30.0
 spawn_near_player = false
-player_proximity_range = 10.0
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1501075645]
+stream = ExtResource("6_7mi8q")
+autoplay = true

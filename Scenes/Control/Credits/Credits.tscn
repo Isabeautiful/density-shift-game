@@ -4,8 +4,7 @@
 [ext_resource type="Script" uid="uid://cujsb4712xyfc" path="res://Scenes/Control/Credits/credits.gd" id="2_5fr3w"]
 [ext_resource type="Texture2D" uid="uid://darbdoepde5r" path="res://assets/img/density_shift02.png" id="3_ltkst"]
 [ext_resource type="FontFile" uid="uid://cjghbu3gb86gg" path="res://assets/fonts/Linerama/Linerama-Regular.ttf" id="4_c1wd6"]
-[ext_resource type="AudioStream" uid="uid://d0y6bp1oytqsk" path="res://assets/audio/music/201_loop.wav" id="5_xon50"]
-[ext_resource type="AudioStream" uid="uid://bt1a4sgyrn0xs" path="res://assets/audio/effects/video-game-gui-hovering-sound-417440 (mp3cut.net).mp3" id="6_fegks"]
+[ext_resource type="AudioStream" uid="uid://c5qpk6kim41mj" path="res://assets/audio/music/Music_TheDivineElf.mp3" id="5_5fr3w"]
 
 [sub_resource type="Theme" id="Theme_syhdw"]
 default_font = ExtResource("1_07l3k")
@@ -101,11 +100,12 @@ layout_mode = 2
 text = "Voltar ao menu"
 
 [node name="music" type="AudioStreamPlayer" parent="." unique_id=2082730273]
-stream = ExtResource("5_xon50")
+stream = ExtResource("5_5fr3w")
 autoplay = true
 
 [node name="hover" type="AudioStreamPlayer" parent="." unique_id=337442101]
-stream = ExtResource("6_fegks")
+stream = ExtResource("5_5fr3w")
+autoplay = true
 
 [node name="Panel3" type="Panel" parent="." unique_id=300885023]
 modulate = Color(0, 0.9036243, 0.9804093, 1)

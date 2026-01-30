@@ -1,15 +1,16 @@
 extends Control
 @onready var label: RichTextLabel = $Panel3/Label
+@onready var voltar: Button = $Panel/VBoxContainer/Voltar
+@onready var hover_sound: AudioStreamPlayer = $hover
+@onready var music: AudioStreamPlayer = $music
+
 var typing_speed = 0.01
 var is_typing = true
 var intensidade = 1.25
 var duracao = 0.5
 
-@onready var voltar: Button = $Panel/VBoxContainer/Voltar
-@onready var hover_sound: AudioStreamPlayer = $hover
-
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	music.stream.loop = true
 	type_text("""
 	Alunos:
 	Isabela Coelho
@@ -57,15 +58,12 @@ func _on_label_meta_clicked(meta: Variant) -> void:
 	if meta.begins_with("http") or meta.begins_with("https"):
 		OS.shell_open(meta)
 
-
 func _on_voltar_mouse_entered() -> void:
 	hover_sound.play()
-
 
 func _on_label_meta_hover_started(meta: Variant) -> void:
 	if not is_typing:
 		hover_sound.play()
-
 
 func _on_voltar_pressed() -> void:
 	get_tree().change_scene_to_file("res://Scenes/Control/MainMenu/MainMenu.tscn")
