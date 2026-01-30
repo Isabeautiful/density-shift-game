@@ -1,8 +1,8 @@
 extends Control
 
-@onready var jogar: Button = $Panel/VBoxContainer/Jogar
-@onready var voltar: Button = $Panel/VBoxContainer/Voltar
-@onready var sair: Button = $Panel/VBoxContainer/Sair
+@onready var jogar: Button = $Panel2/Panel/VBoxContainer/Jogar
+@onready var voltar: Button = $Panel2/Panel/VBoxContainer/Voltar
+@onready var sair: Button = $Panel2/Panel/VBoxContainer/Sair
 
 var intensidade = 1.25
 var duracao = 0.5

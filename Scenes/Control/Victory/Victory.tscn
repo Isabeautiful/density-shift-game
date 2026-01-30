@@ -2,7 +2,7 @@
 
 [ext_resource type="FontFile" uid="uid://i7eaan4e1yb8" path="res://assets/fonts/AlphaProta/AlphaProta-Regular.ttf" id="1_cgd7b"]
 [ext_resource type="Script" uid="uid://dpe1w3ka62jis" path="res://Scenes/Control/Victory/victory.gd" id="2_pfg7f"]
-[ext_resource type="Texture2D" uid="uid://da0aajrjp3xrd" path="res://assets/img/density_shift.png" id="3_01w3h"]
+[ext_resource type="Texture2D" uid="uid://darbdoepde5r" path="res://assets/img/density_shift02.png" id="3_r185h"]
 [ext_resource type="FontFile" uid="uid://cjghbu3gb86gg" path="res://assets/fonts/Linerama/Linerama-Regular.ttf" id="4_yfhc6"]
 [ext_resource type="AudioStream" uid="uid://bt1a4sgyrn0xs" path="res://assets/audio/effects/video-game-gui-hovering-sound-417440 (mp3cut.net).mp3" id="5_bhkua"]
 [ext_resource type="AudioStream" uid="uid://d0y6bp1oytqsk" path="res://assets/audio/music/201_loop.wav" id="5_r185h"]
@@ -37,7 +37,7 @@ offset_left = -13.0
 offset_top = 18.0
 offset_right = 1128.0
 offset_bottom = 664.0
-texture = ExtResource("3_01w3h")
+texture = ExtResource("3_r185h")
 
 [node name="Panel" type="Panel" parent="." unique_id=1295218930]
 layout_mode = 1
@@ -46,10 +46,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -287.0
-offset_top = -39.0
-offset_right = 226.0
-offset_bottom = 270.0
+offset_left = -282.0
+offset_top = 74.0
+offset_right = 231.0
+offset_bottom = 325.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -80,7 +80,25 @@ text = "Voltar ao menu"
 layout_mode = 2
 text = "Sair"
 
-[node name="Label" type="Label" parent="." unique_id=1460625284]
+[node name="music" type="AudioStreamPlayer" parent="." unique_id=2082730273]
+stream = ExtResource("5_r185h")
+autoplay = true
+
+[node name="hover" type="AudioStreamPlayer" parent="." unique_id=337442101]
+stream = ExtResource("5_bhkua")
+
+[node name="Panel2" type="Panel" parent="." unique_id=1236754225]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -584.0
+offset_top = 18.0
+offset_right = 550.5
+offset_bottom = 326.0
+grow_horizontal = 2
+
+[node name="Label" type="Label" parent="Panel2" unique_id=1460625284]
 layout_mode = 0
 offset_left = 35.0
 offset_top = 36.0
@@ -90,13 +108,6 @@ text = "Escapou do labirinto"
 label_settings = SubResource("LabelSettings_gcedd")
 horizontal_alignment = 1
 autowrap_mode = 2
-
-[node name="music" type="AudioStreamPlayer" parent="." unique_id=2082730273]
-stream = ExtResource("5_r185h")
-autoplay = true
-
-[node name="hover" type="AudioStreamPlayer" parent="." unique_id=337442101]
-stream = ExtResource("5_bhkua")
 
 [connection signal="mouse_entered" from="Panel/VBoxContainer/Jogar" to="." method="_on_jogar_mouse_entered"]
 [connection signal="pressed" from="Panel/VBoxContainer/Jogar" to="." method="_on_jogar_pressed"]

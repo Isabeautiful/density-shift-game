@@ -1,0 +1,127 @@
+[gd_scene format=3 uid="uid://b604k8dnbdi4f"]
+
+[ext_resource type="FontFile" uid="uid://i7eaan4e1yb8" path="res://assets/fonts/AlphaProta/AlphaProta-Regular.ttf" id="1_njwc0"]
+[ext_resource type="Script" uid="uid://krw6oramuj45" path="res://Scenes/Control/Defeat/defeat.gd" id="2_wkj4k"]
+[ext_resource type="FontFile" uid="uid://cjghbu3gb86gg" path="res://assets/fonts/Linerama/Linerama-Regular.ttf" id="3_pnjq7"]
+[ext_resource type="Texture2D" uid="uid://darbdoepde5r" path="res://assets/img/density_shift02.png" id="3_xrk0e"]
+[ext_resource type="AudioStream" uid="uid://dxege0hig6bwr" path="res://assets/audio/music/Music_Unease.mp3" id="4_bhkyd"]
+[ext_resource type="AudioStream" uid="uid://bt1a4sgyrn0xs" path="res://assets/audio/effects/video-game-gui-hovering-sound-417440 (mp3cut.net).mp3" id="5_fcttl"]
+
+[sub_resource type="Theme" id="Theme_syhdw"]
+default_font = ExtResource("1_njwc0")
+
+[sub_resource type="LabelSettings" id="LabelSettings_gcedd"]
+font_size = 110
+font_color = Color(1, 0, 0, 1)
+
+[sub_resource type="Theme" id="Theme_u1y0g"]
+default_font = ExtResource("3_pnjq7")
+default_font_size = 43
+
+[node name="Defeat" type="Control" unique_id=37027002]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 23.0
+offset_top = -14.0
+offset_right = 23.0
+offset_bottom = -14.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_syhdw")
+script = ExtResource("2_wkj4k")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1235121205]
+layout_mode = 0
+offset_left = -13.0
+offset_top = 18.0
+offset_right = 1128.0
+offset_bottom = 664.0
+texture = ExtResource("3_xrk0e")
+
+[node name="music" type="AudioStreamPlayer" parent="." unique_id=2082730273]
+stream = ExtResource("4_bhkyd")
+autoplay = true
+
+[node name="hover" type="AudioStreamPlayer" parent="." unique_id=337442101]
+stream = ExtResource("5_fcttl")
+
+[node name="Panel2" type="Panel" parent="." unique_id=1236754225]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -584.0
+offset_top = 18.0
+offset_right = 550.5
+offset_bottom = 685.0
+grow_horizontal = 2
+
+[node name="Panel2" type="Panel" parent="Panel2" unique_id=1583906499]
+layout_mode = 0
+offset_left = -26.0
+offset_top = 260.0
+offset_right = 1189.0
+offset_bottom = 381.0
+
+[node name="Label" type="Label" parent="Panel2" unique_id=1460625284]
+layout_mode = 0
+offset_left = -26.0
+offset_top = 267.0
+offset_right = 1198.0
+offset_bottom = 390.0
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+text = "Voce MORREU"
+label_settings = SubResource("LabelSettings_gcedd")
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Panel" type="Panel" parent="Panel2" unique_id=1295218930]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -276.25
+offset_top = 79.5
+offset_right = 236.75
+offset_bottom = 330.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel2/Panel" unique_id=1603050597]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -225.0
+offset_top = -91.0
+offset_right = 218.0
+offset_bottom = 91.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_u1y0g")
+
+[node name="Jogar" type="Button" parent="Panel2/Panel/VBoxContainer" unique_id=1589115099]
+layout_mode = 2
+text = "Tentar Novamente"
+
+[node name="Voltar" type="Button" parent="Panel2/Panel/VBoxContainer" unique_id=1655063935]
+layout_mode = 2
+text = "Voltar ao menu"
+
+[node name="Sair" type="Button" parent="Panel2/Panel/VBoxContainer" unique_id=659155431]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+text = "Desistir"
+
+[connection signal="mouse_entered" from="Panel2/Panel/VBoxContainer/Jogar" to="." method="_on_jogar_mouse_entered"]
+[connection signal="pressed" from="Panel2/Panel/VBoxContainer/Jogar" to="." method="_on_jogar_pressed"]
+[connection signal="mouse_entered" from="Panel2/Panel/VBoxContainer/Voltar" to="." method="_on_voltar_mouse_entered"]
+[connection signal="pressed" from="Panel2/Panel/VBoxContainer/Voltar" to="." method="_on_voltar_pressed"]
+[connection signal="mouse_entered" from="Panel2/Panel/VBoxContainer/Sair" to="." method="_on_sair_mouse_entered"]
+[connection signal="pressed" from="Panel2/Panel/VBoxContainer/Sair" to="." method="_on_sair_pressed"]
