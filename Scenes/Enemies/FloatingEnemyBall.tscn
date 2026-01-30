@@ -1,0 +1,52 @@
+[gd_scene load_steps=7 format=3 uid="uid://bq6tygf4bpel6"]
+
+[ext_resource type="Script" uid="uid://cgvclvuakolv1" path="res://Scenes/Enemies/FloatingEnemyBall.gd" id="1_kxx07"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_enemy"]
+albedo_color = Color(1, 0.2, 0.2, 1)
+emission_enabled = true
+emission = Color(1, 0.1, 0.1, 0.5)
+emission_energy_multiplier = 2.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_enemy"]
+radius = 0.8
+height = 1.6
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_glow"]
+transparency = 1
+albedo_color = Color(1, 0.8, 0.8, 0.3)
+emission_enabled = true
+emission = Color(1, 0.6, 0.6, 0.8)
+emission_energy_multiplier = 3.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_qwvow"]
+radius = 0.985
+height = 0.001
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_enemy"]
+radius = 0.9
+
+[node name="FloatingEnemyBall" type="Area3D"]
+collision_layer = 4
+script = ExtResource("1_kxx07")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+material_override = SubResource("StandardMaterial3D_enemy")
+mesh = SubResource("SphereMesh_enemy")
+
+[node name="GlowEffect" type="MeshInstance3D" parent="."]
+material_override = SubResource("StandardMaterial3D_glow")
+mesh = SubResource("SphereMesh_qwvow")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_enemy")
+
+[node name="Particles" type="GPUParticles3D" parent="."]
+amount = 30
+lifetime = 1.5
+preprocess = 1.0
+speed_scale = 0.8
+
+[node name="Light" type="OmniLight3D" parent="."]
+light_color = Color(1, 0.3, 0.3, 1)
+light_energy = 2.0

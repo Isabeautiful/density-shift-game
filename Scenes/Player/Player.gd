@@ -3,21 +3,13 @@ extends CharacterBody3D
 @export var gravity_scale: float = 1.0
 @export var jump_velocity: float = 10.0
 @export var move_speed: float = 5.0
-
-# Propriedades para diferentes estados
 @export var mass_light: float = 1.0
 @export var mass_heavy: float = 3.0
 
 @onready var mao_r: Node3D = $CameraPivot/CameraController/Camera3D/mao_r
 @onready var mao_e: Node3D = $CameraPivot/CameraController/Camera3D/mao_e
-
-var current_mass: float = 1.0
-var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
-var air_kinetic_energy : float
 @onready var state_machine = $StateMachine
 @onready var camera_pivot = $CameraPivot
-var mao_start_posY : int
-#Hud
 @onready var label_feedback: Label = $CameraPivot/CameraController/Camera3D/CanvasLayer/PlayerFeedback/LabelFeedback
 @onready var label: Label = $CameraPivot/CameraController/Camera3D/CanvasLayer/Dialog/Label
 @onready var button: Button = $CameraPivot/CameraController/Camera3D/CanvasLayer/Dialog/Button
@@ -25,12 +17,16 @@ var mao_start_posY : int
 @export var typing_speed : float = 0.01
 @export var pause_game : bool = true
 
+var current_mass: float = 1.0
+var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
+var air_kinetic_energy : float
+var mao_start_posY : int
 var expected_input:String
 var is_typing = false
 var is_dialog_active = true
 var actual_message : String
 signal button_pressed()
-# Getter para uso nos estados
+
 var is_grounded: bool:
 	get: return is_on_floor()
 
@@ -38,20 +34,10 @@ var kinetic_energy: float:
 	get: return (current_mass * (velocity.y*velocity.y))/2
 
 func _ready():
-	add_to_group("player")  # ADICIONE ESTA LINHA
-	print("Player: Adicionado ao grupo 'player'")
-	
+	add_to_group("player")
 	mao_start_posY = mao_r.position.y
-	print("mao start: ",mao_start_posY)
-	# Inicializa a máquina de estados
-	print("Player inicializando...")
 	state_machine.init(self)
 	current_mass = mass_light
-	print("Player pronto")
-	
-	# DEBUG: Mostrar informações de colisão
-	print("Player - collision_layer: ", collision_layer)
-	print("Player - collision_mask: ", collision_mask)
 
 func _physics_process(delta):
 	dialog.visible = is_dialog_active
@@ -59,18 +45,16 @@ func _physics_process(delta):
 		if Input.is_action_just_pressed(expected_input):
 			hide_dialog(false)
 		
-	# Aplica gravidade considerando a massa
 	if not is_on_floor():
 		velocity.y -= gravity * gravity_scale * delta
 		air_kinetic_energy = kinetic_energy
 		
 	elif Input.is_action_pressed("move_back") or Input.is_action_pressed("move_left") or Input.is_action_pressed("move_right"):
 		shake_hands(delta)
-	# Delega o processamento de física para a máquina de estados
+	
 	state_machine.process_physics(delta)
 	move_and_slide()
 	
-	# Verificar se caiu do mapa
 	if global_position.y < -10:
 		respawn()
 
@@ -85,12 +69,10 @@ func shake_hands(delta):
 	mao_e.position.y += mao_start_posY/2 + offset_e
 
 func _input(event):
-	# Delega o processamento de input para a máquina de estados
 	state_machine.process_input(event)
 
 func get_move_direction() -> Vector3:
 	var input_dir = Input.get_vector("move_left", "move_right", "move_back", "move_foward")
-	#print("Input: ", input_dir)  # Debug
 	return (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 
 func can_jump() -> bool:
@@ -100,10 +82,8 @@ func set_mass(new_mass: float) -> void:
 	current_mass = new_mass
 
 func respawn():
-	# Reposicionar o jogador no início, mas não muito alto para não bater no teto
-	global_position = Vector3(0, 2, 0)  # Mais baixo que antes
+	global_position = Vector3(0, 2, 0)
 	velocity = Vector3.ZERO
-	print("Player respawned!")
 
 func set_dialog_text(texto : String):
 	is_dialog_active = true
@@ -147,3 +127,6 @@ func show_btn(visibility:bool):
 func _on_button_pressed() -> void:
 	button_pressed.emit()
 	hide_dialog(true)
+
+func take_damage(amount: int = 1):
+	pass
