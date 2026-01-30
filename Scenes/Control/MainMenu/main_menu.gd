@@ -28,7 +28,7 @@ func _on_tutorial_pressed() -> void:
 	get_tree().change_scene_to_file("res://Scenes/Tutorial/tutorial.tscn")
 	
 func _on_creditos_pressed() -> void:
-	pass
+	get_tree().change_scene_to_file("res://Scenes/Control/Credits/Credits.tscn")
 func _on_sair_pressed() -> void:
 	get_tree().quit()
 	

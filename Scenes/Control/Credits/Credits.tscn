@@ -1,0 +1,132 @@
+[gd_scene format=3 uid="uid://chwlnn1bnhwo0"]
+
+[ext_resource type="FontFile" uid="uid://i7eaan4e1yb8" path="res://assets/fonts/AlphaProta/AlphaProta-Regular.ttf" id="1_07l3k"]
+[ext_resource type="Script" uid="uid://cujsb4712xyfc" path="res://Scenes/Control/Credits/credits.gd" id="2_5fr3w"]
+[ext_resource type="Texture2D" uid="uid://darbdoepde5r" path="res://assets/img/density_shift02.png" id="3_ltkst"]
+[ext_resource type="FontFile" uid="uid://cjghbu3gb86gg" path="res://assets/fonts/Linerama/Linerama-Regular.ttf" id="4_c1wd6"]
+[ext_resource type="AudioStream" uid="uid://d0y6bp1oytqsk" path="res://assets/audio/music/201_loop.wav" id="5_xon50"]
+[ext_resource type="AudioStream" uid="uid://bt1a4sgyrn0xs" path="res://assets/audio/effects/video-game-gui-hovering-sound-417440 (mp3cut.net).mp3" id="6_fegks"]
+
+[sub_resource type="Theme" id="Theme_syhdw"]
+default_font = ExtResource("1_07l3k")
+
+[sub_resource type="LabelSettings" id="LabelSettings_gcedd"]
+font_size = 110
+
+[sub_resource type="Theme" id="Theme_u1y0g"]
+default_font = ExtResource("4_c1wd6")
+default_font_size = 43
+
+[sub_resource type="Theme" id="Theme_5fr3w"]
+default_font = ExtResource("4_c1wd6")
+default_font_size = 35
+
+[node name="Credits" type="Control" unique_id=37027002]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 23.0
+offset_top = -14.0
+offset_right = 23.0
+offset_bottom = -14.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_syhdw")
+script = ExtResource("2_5fr3w")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1235121205]
+layout_mode = 0
+offset_left = -13.0
+offset_top = 18.0
+offset_right = 1137.0
+offset_bottom = 664.0
+texture = ExtResource("3_ltkst")
+
+[node name="Panel2" type="Panel" parent="." unique_id=1236754225]
+modulate = Color(0, 0, 0, 1)
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -594.0
+offset_top = 15.0
+offset_right = 558.0
+offset_bottom = 663.0
+grow_horizontal = 2
+
+[node name="Label" type="Label" parent="." unique_id=1460625284]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 21.0
+offset_right = 1038.0
+offset_bottom = 132.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "Créditos"
+label_settings = SubResource("LabelSettings_gcedd")
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Panel" type="Panel" parent="." unique_id=1295218930]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -285.0
+offset_top = 239.0
+offset_right = 228.0
+offset_bottom = 332.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel" unique_id=1603050597]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -221.5
+offset_top = -29.0
+offset_right = 221.5
+offset_bottom = 29.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_u1y0g")
+
+[node name="Voltar" type="Button" parent="Panel/VBoxContainer" unique_id=1655063935]
+layout_mode = 2
+text = "Voltar ao menu"
+
+[node name="music" type="AudioStreamPlayer" parent="." unique_id=2082730273]
+stream = ExtResource("5_xon50")
+autoplay = true
+
+[node name="hover" type="AudioStreamPlayer" parent="." unique_id=337442101]
+stream = ExtResource("6_fegks")
+
+[node name="Panel3" type="Panel" parent="." unique_id=300885023]
+modulate = Color(0, 0.9036243, 0.9804093, 1)
+clip_contents = true
+layout_mode = 0
+offset_left = 47.0
+offset_top = 137.0
+offset_right = 1049.0
+offset_bottom = 538.0
+
+[node name="Label" type="RichTextLabel" parent="Panel3" unique_id=1864631881]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_5fr3w")
+bbcode_enabled = true
+
+[connection signal="mouse_entered" from="Panel/VBoxContainer/Voltar" to="." method="_on_voltar_mouse_entered"]
+[connection signal="pressed" from="Panel/VBoxContainer/Voltar" to="." method="_on_voltar_pressed"]
+[connection signal="meta_clicked" from="Panel3/Label" to="." method="_on_label_meta_clicked"]
+[connection signal="meta_hover_started" from="Panel3/Label" to="." method="_on_label_meta_hover_started"]
