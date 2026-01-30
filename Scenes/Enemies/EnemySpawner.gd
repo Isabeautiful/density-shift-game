@@ -10,6 +10,7 @@ extends Node3D
 @export var spawn_near_player: bool = true
 @export var player_proximity_range: float = 20.0
 @export var enabled: bool = true
+@export var enemy_lifetime: float = 60.0
 
 var player: CharacterBody3D = null
 var enemies: Array = []
@@ -92,6 +93,10 @@ func spawn_enemy():
 		)
 	
 	var enemy = enemy_scene.instantiate()
+	
+	if enemy.has_method("set_lifetime"):
+		enemy.set_lifetime(enemy_lifetime)
+	
 	add_child(enemy)
 	enemy.global_position = spawn_position
 	enemies.append(enemy)
@@ -105,13 +110,6 @@ func cleanup_enemies():
 			enemy.queue_free()
 	
 	enemies = valid_enemies
-	
-	if enemies.size() > max_enemies * 2:
-		var to_remove = enemies.size() - max_enemies
-		for i in range(to_remove):
-			if i < enemies.size() and is_instance_valid(enemies[i]):
-				enemies[i].queue_free()
-		enemies = enemies.slice(to_remove)
 
 func clear_all_enemies():
 	for enemy in enemies:

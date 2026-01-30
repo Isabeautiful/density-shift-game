@@ -21,6 +21,7 @@ extends Node3D
 @export var enemy_max_per_level: int = 8
 @export var enemy_spawn_height_offset: float = 2.0
 @export var enemy_detection_range: float = 25.0
+@export var enemy_min_spawn_height: float = 8.0
 
 @onready var floor_scene = preload("res://Scenes/Floor/floor.tscn")
 @onready var wall_scene = preload("res://Scenes/TowerFloor/Wall.tscn")
@@ -287,7 +288,7 @@ func spawn_enemies_for_level(floor_level: int, floor_y: float):
 		
 		var spawn_position = Vector3(
 			spawn_floor.global_transform.origin.x,
-			spawn_floor.global_transform.origin.y + enemy_spawn_height_offset,
+			max(floor_y + enemy_spawn_height_offset, enemy_min_spawn_height),
 			spawn_floor.global_transform.origin.z
 		)
 		
@@ -300,6 +301,9 @@ func spawn_enemies_for_level(floor_level: int, floor_y: float):
 		
 		if enemy.has_method("set_detection_range"):
 			enemy.set_detection_range(enemy_detection_range)
+		
+		if enemy.has_method("set_lifetime"):
+			enemy.set_lifetime(60.0)
 		
 		enemy.add_to_group("enemies")
 		

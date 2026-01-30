@@ -21,9 +21,6 @@ size = Vector3(200, 50, 1)
 [node name="TestLevelWithEnemies" type="Node3D"]
 script = ExtResource("1")
 portal_scene = ExtResource("3")
-enemy_scene = ExtResource("4")
-enemies_per_floor = 4
-enemy_spawn_height_offset = 3.0
 
 [node name="chao" type="StaticBody3D" parent="."]
 collision_layer = 2
