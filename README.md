@@ -2,6 +2,6 @@
 
 # Density Shift
 
-## Alunos:                     Matrícula:
-- Isabela Coelho Oliveira     - 202365226AB
-- Igor Correa Trifilio Campos - 202365092AB
+## Alunos:                    
+- Isabela Coelho Oliveira.     Matrícula: 202365226AB
+- Igor Correa Trifilio Campos. Matrícula: 202365092AB
