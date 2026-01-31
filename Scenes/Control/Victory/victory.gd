@@ -20,7 +20,7 @@ func _process(_delta: float) -> void:
 		audio_stream_player.play(0.0)
 
 func _on_jogar_pressed() -> void:
-	get_tree().change_scene_to_file("res://Scenes/Tutorial/TestLevel.tscn")
+	get_tree().change_scene_to_file("res://Scenes/Tutorial/TestLevelWithEnemies.tscn")
 	
 func _on_voltar_pressed() -> void:
 	get_tree().change_scene_to_file("res://Scenes/Tutorial/tutorial.tscn")

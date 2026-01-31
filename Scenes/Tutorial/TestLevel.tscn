@@ -85,9 +85,12 @@ autoplay = true
 
 [node name="FloatingEnemyBall" parent="." unique_id=2113840622 instance=ExtResource("4_1no3s")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.280817, 33.385525, 0.093465805)
+speed = 5.0
 
 [node name="FloatingEnemyBall2" parent="." unique_id=428810008 instance=ExtResource("4_1no3s")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.1384044, 33.23282, 0.8888111)
+speed = 5.0
 
 [node name="FloatingEnemyBall3" parent="." unique_id=1204316945 instance=ExtResource("4_1no3s")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.472343, 32.97077, 0)
+speed = 5.0
