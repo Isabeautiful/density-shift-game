@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://bq6tygf4bpel6"]
+[gd_scene format=3 uid="uid://bq6tygf4bpel6"]
 
 [ext_resource type="Script" uid="uid://cgvclvuakolv1" path="res://Scenes/Enemies/FloatingEnemyBall.gd" id="1_kxx07"]
 
@@ -26,27 +26,39 @@ height = 0.001
 [sub_resource type="SphereShape3D" id="SphereShape3D_enemy"]
 radius = 0.9
 
-[node name="FloatingEnemyBall" type="Area3D"]
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_kxx07"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_vfpo2"]
+
+[sub_resource type="Skin" id="Skin_au2oc"]
+
+[node name="FloatingEnemyBall" type="Area3D" unique_id=2113840622]
 collision_layer = 4
 script = ExtResource("1_kxx07")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=622064582]
 material_override = SubResource("StandardMaterial3D_enemy")
 mesh = SubResource("SphereMesh_enemy")
 
-[node name="GlowEffect" type="MeshInstance3D" parent="."]
+[node name="GlowEffect" type="MeshInstance3D" parent="." unique_id=1636034245]
 material_override = SubResource("StandardMaterial3D_glow")
 mesh = SubResource("SphereMesh_qwvow")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=2109827330]
 shape = SubResource("SphereShape3D_enemy")
 
-[node name="Particles" type="GPUParticles3D" parent="."]
+[node name="Particles" type="GPUParticles3D" parent="." unique_id=379528774]
 amount = 30
+sub_emitter = NodePath(".")
 lifetime = 1.5
 preprocess = 1.0
 speed_scale = 0.8
+process_material = SubResource("ParticleProcessMaterial_kxx07")
+draw_pass_1 = SubResource("SphereMesh_vfpo2")
+draw_skin = SubResource("Skin_au2oc")
 
-[node name="Light" type="OmniLight3D" parent="."]
+[node name="Light" type="OmniLight3D" parent="." unique_id=1859143576]
 light_color = Color(1, 0.3, 0.3, 1)
 light_energy = 2.0
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer3D" parent="." unique_id=1904898965]

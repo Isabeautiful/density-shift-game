@@ -4,20 +4,20 @@ class_name HeavyState
 
 var jump_count: int = 0
 var max_jumps: int = 1  # Apenas 1 pulo no estado pesado
-var jump_velocity: float = 8.0
-var move_speed: float = 4.0
+var jump_velocity: float = 4.0
+var move_speed: float = 14.0
 var acceleration: float = 15.0
-var deceleration: float = 20.0
+var deceleration: float = 15.0
 #var break_force: float = 500.0
 var can_break: bool = true
 
 func enter() -> void:
 	print("HeavyState: Entrou no estado PESADO")
-	player.set_feedback_text("Entrou no modo pesado")
+	player.set_feedback_text("Modo Pesado")
 
 	# Configura propriedades físicas
 	player.set_mass(player.mass_heavy)
-	player.gravity_scale = 1.5
+	player.gravity_scale = 5
 	
 	# Reset contador de pulos
 	jump_count = 0
@@ -57,7 +57,7 @@ func process_input(event: InputEvent, player: CharacterBody3D) -> void:
 	if event.is_action_pressed("toggle_light"):
 		print("HeavyState: Solicitando mudança para LightState")
 		transitioned.emit(self, "LightState")
-	
+		
 	# Ação de quebrar pisos (pode ser ativada manualmente também)
 	if event.is_action_pressed("break_floor"):
 		break_fragile_floor()

@@ -1,6 +1,6 @@
 extends Area3D
 
-@export var speed: float = 5.0
+@export var speed: float = 15.0
 @export var rotation_speed: float = 2.0
 @export var detection_range: float = 25.0
 @export var damage: int = 1
@@ -10,6 +10,7 @@ extends Area3D
 @export var lifetime: float = 60.0
 @export var despawn_distance: float = 50.0
 @export var min_flight_height: float = 8.0  # Altura mínima de voo
+@onready var audio: AudioStreamPlayer3D = $AudioStreamPlayer
 
 var player: CharacterBody3D = null
 var time: float = 0.0
@@ -17,11 +18,14 @@ var is_active: bool = true
 var chase_player: bool = false
 var player_search_timer: float = 0.0
 var life_timer: float = 0.0
+@onready var collision_shape_3d: CollisionShape3D = $CollisionShape3D
 
 func _ready():
+	add_to_group("enemy")
+	collision_shape_3d.add_to_group("enemy")
 	find_player()
 	body_entered.connect(_on_body_entered)
-	
+	config_audio()
 	# Garantir que está acima do chão
 	if global_position.y < min_flight_height:
 		global_position.y = min_flight_height
@@ -119,6 +123,29 @@ func deactivate():
 		$Particles.emitting = false
 	if has_node("Light"):
 		$Light.light_energy = 0.0
-
+	audio.stop()
+	
 func set_lifetime(new_lifetime: float):
 	lifetime = new_lifetime
+
+func config_audio():
+	audio.max_distance = 65.0  
+	audio.unit_size = 10.0  
+	
+	audio.attenuation_model = AudioStreamPlayer3D.ATTENUATION_INVERSE_DISTANCE
+
+	audio.attenuation_filter_cutoff_hz = 5000.0  # Filtro de frequência com distância
+	audio.attenuation_filter_db = -24.0
+	
+	audio.doppler_tracking = AudioStreamPlayer3D.DOPPLER_TRACKING_IDLE_STEP
+
+	audio.volume_db = 0.0  # Volume em decibéis
+	audio.max_db = 3.0  # Volume máximo quando muito perto
+	
+	audio.emission_angle_enabled = false  # Som direcional
+	audio.emission_angle_degrees = 45.0  # Cone de emissão
+	audio.emission_angle_filter_attenuation_db = -12.0
+	audio.panning_strength = 1.0
+	audio.stream = preload("res://assets/audio/effects/saw-running-82131.mp3")
+	audio.play()
+	audio.stream.loop = true;

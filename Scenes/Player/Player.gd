@@ -4,18 +4,22 @@ extends CharacterBody3D
 @export var jump_velocity: float = 10.0
 @export var move_speed: float = 5.0
 @export var mass_light: float = 1.0
-@export var mass_heavy: float = 3.0
+@export var mass_heavy: float = 5.0
 
 @onready var mao_r: Node3D = $CameraPivot/CameraController/Camera3D/mao_r
 @onready var mao_e: Node3D = $CameraPivot/CameraController/Camera3D/mao_e
 @onready var state_machine = $StateMachine
 @onready var camera_pivot = $CameraPivot
+
+@onready var panel: Panel = $CameraPivot/CameraController/Camera3D/CanvasLayer/Dialog/Panel
 @onready var label_feedback: Label = $CameraPivot/CameraController/Camera3D/CanvasLayer/PlayerFeedback/LabelFeedback
 @onready var label: Label = $CameraPivot/CameraController/Camera3D/CanvasLayer/Dialog/Label
 @onready var button: Button = $CameraPivot/CameraController/Camera3D/CanvasLayer/Dialog/Button
 @onready var dialog: Control = $CameraPivot/CameraController/Camera3D/CanvasLayer/Dialog
 @export var typing_speed : float = 0.01
 @export var pause_game : bool = true
+
+@onready var value_hp: Label = $CameraPivot/CameraController/Camera3D/CanvasLayer/HP_container/HBoxContainer/value_hp
 
 var current_mass: float = 1.0
 var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
@@ -25,6 +29,8 @@ var expected_input:String
 var is_typing = false
 var is_dialog_active = false
 var actual_message : String
+var hp = 3
+var actual_state : String = "Modo Pesado"
 
 signal button_pressed()
 
@@ -32,7 +38,7 @@ var is_grounded: bool:
 	get: return is_on_floor()
 
 var kinetic_energy: float:
-	get: return (current_mass * (velocity.y*velocity.y))/2
+	get: return (current_mass * ((velocity.y*velocity.y) + (velocity.x*velocity.x)))/2
 
 var typing : bool:
 	get: return is_typing
@@ -45,6 +51,13 @@ func _ready():
 
 func _physics_process(delta):
 	dialog.visible = is_dialog_active
+	panel.visible = is_dialog_active
+	label.visible = is_dialog_active
+	label_feedback.visible = true
+	
+	value_hp.text = str(hp)
+	
+	print(air_kinetic_energy)
 	if expected_input != "":
 		if Input.is_action_just_pressed(expected_input):
 			hide_dialog(false)
@@ -55,7 +68,7 @@ func _physics_process(delta):
 		
 	elif Input.is_action_pressed("move_back") or Input.is_action_pressed("move_left") or Input.is_action_pressed("move_right"):
 		shake_hands(delta)
-	
+		
 	state_machine.process_physics(delta)
 	move_and_slide()
 	
@@ -73,7 +86,7 @@ func shake_hands(delta):
 	mao_e.position.y += mao_start_posY/2 + offset_e
 
 func _input(event):
-	state_machine.process_input(event)
+	state_machine.process_input(event,self)
 
 func get_move_direction() -> Vector3:
 	var input_dir = Input.get_vector("move_left", "move_right", "move_back", "move_foward")
@@ -89,6 +102,7 @@ func set_mass(new_mass: float) -> void:
 	current_mass = new_mass
 
 func respawn():
+	take_damage()
 	global_position = Vector3(0, 2, 0)
 	velocity = Vector3.ZERO
 
@@ -111,14 +125,12 @@ func set_feedback_text(texto: String):
 	label_feedback.visible = true
 	await type_text(texto, label_feedback)
 	await get_tree().create_timer(3.0).timeout
-	label_feedback.visible = false
 
 func type_text(text:String, selected_label):
 	selected_label.text = ""
 	for i in range(text.length()):
-		if selected_label.text != actual_message:
-			selected_label.text += text[i]
-			await get_tree().create_timer(typing_speed).timeout
+		selected_label.text += text[i]
+		await get_tree().create_timer(typing_speed).timeout
 	
 
 func hide_dialog(by_btn:bool):
@@ -148,12 +160,16 @@ func detect_collision(group,action:Callable) -> void:
 	var to = from - Vector3(0, 1.5, 0)
 	var query = PhysicsRayQueryParameters3D.create(from, to)
 	query.exclude = [self]
-	
-	var is_breaking = Input.is_action_pressed("break_floor")
 	var result = space_state.intersect_ray(query)
+	
 	if result:
 		var collider = result.collider
 		if collider.is_in_group(group):
 			action.call()
+			
 func take_damage(amount: int = 1):
-	pass
+	hp -= amount
+	if(hp <=0):
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+		get_tree().change_scene_to_file("res://Scenes/Control/Defeat/Defeat.tscn")
+		

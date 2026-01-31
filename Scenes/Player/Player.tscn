@@ -5,6 +5,7 @@
 [ext_resource type="Script" uid="uid://byfak73j6i8ea" path="res://Scenes/Player/StateMachine/States/StateMachine.gd" id="3"]
 [ext_resource type="PackedScene" uid="uid://ckwliau01pymi" path="res://assets/models/r_smooth_open.glb" id="3_4wape"]
 [ext_resource type="Script" uid="uid://ttlki2nu3a8h" path="res://Scenes/Player/StateMachine/States/LightState.gd" id="4"]
+[ext_resource type="FontFile" uid="uid://d0ykhbkepji76" path="res://assets/fonts/Linerama/Linerama-Bold.ttf" id="4_t26db"]
 [ext_resource type="Script" uid="uid://dh6sstx8yad1o" path="res://Scenes/Player/StateMachine/States/HeavyState.gd" id="5"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1"]
@@ -18,11 +19,15 @@ default_font_size = 30
 subpixel_positioning = 0
 msdf_pixel_range = 14
 msdf_size = 128
-cache/0/30/0/ascent = 0.0
-cache/0/30/0/descent = 0.0
-cache/0/30/0/underline_position = 0.0
-cache/0/30/0/underline_thickness = 0.0
-cache/0/30/0/scale = 1.0
+cache/0/variation_coordinates = {}
+cache/0/face_index = 0
+cache/0/embolden = 0.0
+cache/0/transform = Transform2D(1, 0, 0, 1, 0, 0)
+cache/0/spacing_top = 0
+cache/0/spacing_bottom = 0
+cache/0/spacing_space = 0
+cache/0/spacing_glyph = 0
+cache/0/baseline_offset = 0.0
 cache/0/16/0/ascent = 0.0
 cache/0/16/0/descent = 0.0
 cache/0/16/0/underline_position = 0.0
@@ -40,7 +45,11 @@ font_size = 30
 outline_size = 6
 outline_color = Color(0, 0, 0, 1)
 
-[node name="Player" type="CharacterBody3D"]
+[sub_resource type="Theme" id="Theme_fk5o5"]
+default_font = ExtResource("4_t26db")
+default_font_size = 50
+
+[node name="Player" type="CharacterBody3D" unique_id=1987256424]
 collision_mask = 14
 script = ExtResource("1")
 
@@ -77,6 +86,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Panel" type="Panel" parent="CameraPivot/CameraController/Camera3D/CanvasLayer/Dialog" unique_id=194891167]
+visible = false
 modulate = Color(5.8598466, 2.2904582, 2.2745934, 0.50980395)
 layout_mode = 1
 anchors_preset = 15
@@ -90,18 +100,19 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Label" type="Label" parent="CameraPivot/CameraController/Camera3D/CanvasLayer/Dialog" unique_id=491961248]
+visible = false
 layout_mode = 0
 offset_left = -446.0
 offset_top = -228.0
 offset_right = 502.0
 offset_bottom = -186.0
 theme = SubResource("Theme_4wape")
-text = "aaaaaaaaa"
 label_settings = SubResource("LabelSettings_t26db")
 autowrap_mode = 2
 justification_flags = 171
 
 [node name="Button" type="Button" parent="CameraPivot/CameraController/Camera3D/CanvasLayer/Dialog" unique_id=1907357588]
+visible = false
 layout_mode = 0
 offset_left = -186.0
 offset_top = 114.0
@@ -119,6 +130,28 @@ offset_bottom = 40.0
 layout_mode = 0
 offset_right = 168.0
 offset_bottom = 23.0
+
+[node name="HP_container" type="Control" parent="CameraPivot/CameraController/Camera3D/CanvasLayer" unique_id=952536810]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 903.0
+offset_top = -2.0
+offset_right = 1151.0
+offset_bottom = 56.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CameraPivot/CameraController/Camera3D/CanvasLayer/HP_container" unique_id=1465262709]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme = SubResource("Theme_fk5o5")
+
+[node name="Label" type="Label" parent="CameraPivot/CameraController/Camera3D/CanvasLayer/HP_container/HBoxContainer" unique_id=1817157510]
+layout_mode = 2
+text = "Vida:     "
+
+[node name="value_hp" type="Label" parent="CameraPivot/CameraController/Camera3D/CanvasLayer/HP_container/HBoxContainer" unique_id=1498774582]
+layout_mode = 2
+text = "3"
 
 [node name="SpotLight3D" type="SpotLight3D" parent="CameraPivot/CameraController" unique_id=1320190351]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.46679568, 0)

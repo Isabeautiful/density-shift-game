@@ -4,17 +4,17 @@ class_name LightState
 
 var jump_count: int = 0
 var max_jumps: int = 2
-var jump_velocity: float = 15.0
-var move_speed: float = 8.0
-var acceleration: float = 20.0
-var deceleration: float = 15.0
+var jump_velocity: float = 10.0
+var move_speed: float = 20.0
+var acceleration: float = 25.0
+var deceleration: float = 10.0
 
 func enter() -> void:
 	print("LightState: Entrou no estado LEVE")
-	player.set_feedback_text("Entrou no modo leve")
+	player.set_feedback_text("Modo Leve")
 	# Configura propriedades físicas
 	player.set_mass(player.mass_light)
-	player.gravity_scale = 0.7
+	player.gravity_scale = 0.9
 	
 	# Reset contador de pulos
 	jump_count = 0
@@ -48,3 +48,4 @@ func process_input(event: InputEvent, player:CharacterBody3D) -> void:
 	if event.is_action_pressed("toggle_heavy"):
 		print("LightState: Solicitando mudança para HeavyState")
 		transitioned.emit(self, "HeavyState")
+		

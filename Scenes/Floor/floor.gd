@@ -5,7 +5,7 @@ extends StaticBody3D
 
 enum FloorType {rigid_floor, fragile_floor}
 @export var Floor_type : FloorType = FloorType.rigid_floor
-var break_force: float = 500.0
+var break_force: float = 350.0
 
 signal fragile_floor_broke();
 
