@@ -13,7 +13,7 @@ extends CharacterBody3D
 
 @onready var panel: Panel = $CameraPivot/CameraController/Camera3D/CanvasLayer/Dialog/Panel
 @onready var label_feedback: Label = $CameraPivot/CameraController/Camera3D/CanvasLayer/PlayerFeedback/LabelFeedback
-@onready var label: Label = $CameraPivot/CameraController/Camera3D/CanvasLayer/Dialog/Label
+@onready var label: RichTextLabel = $CameraPivot/CameraController/Camera3D/CanvasLayer/Dialog/Label
 @onready var button: Button = $CameraPivot/CameraController/Camera3D/CanvasLayer/Dialog/Button
 @onready var dialog: Control = $CameraPivot/CameraController/Camera3D/CanvasLayer/Dialog
 @export var typing_speed : float = 0.01
@@ -57,7 +57,6 @@ func _physics_process(delta):
 	
 	value_hp.text = str(hp)
 	
-	print(air_kinetic_energy)
 	if expected_input != "":
 		if Input.is_action_just_pressed(expected_input):
 			hide_dialog(false)

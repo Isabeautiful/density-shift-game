@@ -16,16 +16,15 @@ func _ready() -> void:
 	Isabela Coelho
 	Igor Correa Trifilio Campos
 	
-	textura:
-	[url]https://jarzarr.itch.io/grass-dirt-tileset[/url]
 	mão:
 	[url]https://teamfuze.itch.io/hands-3d-pack[/url]
 	fonte:
 	[url]https://ggbot.itch.io/alpha-prota-font[/url]
 	[url]https://ggbot.itch.io/linerama-font[/url]
 
-	musica:
+	musica e sons:
 	[url]https://comigo.itch.io/music-loops[/url]
+	[url]https://pixabay.com/sound-effects/film-special-effects-saw-running-82131/[/url]
 	""")
 	
 func type_text(text:String):

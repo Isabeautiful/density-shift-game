@@ -31,25 +31,26 @@ func _ready() -> void:
 	gerar_plataformas()
 	
 func gerar_limites():
-	var chao = create_wall(Vector3(0,0,0),Vector3(size_floor,0.1,size_floor),Vector3(0,0,0))
+	var chao = create_wall(Vector3(0,0,0),Vector3(size_floor,0.1,size_floor),Vector3(0,0,0),false,false,Color(1,1,0.7))
 	create_wall(Vector3(size_floor/2 - floor_offset,0,0),Vector3(size_wall,0.1,size_wall),Vector3(0,0,PI/2),false,false,color_wall)
 	create_wall(Vector3(-size_floor/2 + floor_offset,0,0),Vector3(size_wall,0.1,size_wall),Vector3(0,0,PI/2),false,false,color_wall)
 	create_wall(Vector3(0,0,size_floor/2 - floor_offset),Vector3(size_wall,0.1,size_wall),Vector3(PI/2,0,0),false,false,color_wall)
 	create_wall(Vector3(0,0,-size_floor/2 + floor_offset),Vector3(size_wall,0.1,size_wall),Vector3(PI/2,0,0),false,false,color_wall)
-	textura(chao["MeshInstance"])
 	chao_position = chao["StaticBody"].position
 
 func init_dialogs():
 	dialog.push_back(null)
 	dialog.push_back(dialog_p1)
 	dialog.push_back(dialog_p2)
+	dialog.push_back(null)
 	dialog.push_back(break_tutorial_done)
 	
 func gerar_plataformas():
-	platforms.push_back(create_wall(player_start_pos,Vector3(10,0.1,10),Vector3(0,0,0),true,false,color_rigid))
-	platforms.push_back(create_wall(player_start_pos+Vector3(10,10,0),Vector3(10,0.1,10),Vector3(0,0,0),true,false,color_rigid))
-	platforms.push_back(create_wall(player_start_pos+Vector3(30,5,0),Vector3(10,0.1,10),Vector3(0,0,0),true,true,color_fragile,2100))
-	platforms.push_back(create_wall(player_start_pos+Vector3(30,20,20),Vector3(10,0.1,10),Vector3(0,0,0),true,false,color_fragile))
+	platforms.push_back(create_wall(player_start_pos,Vector3(10,0.1,10),Vector3(0,0,0),true,false))
+	platforms.push_back(create_wall(player_start_pos+Vector3(10,5,0),Vector3(10,0.1,10),Vector3(0,0,0),true,false))
+	platforms.push_back(create_wall(player_start_pos+Vector3(30,2,0),Vector3(10,0.1,10),Vector3(0,0,0),true,true,color_fragile,8000))
+	platforms.push_back(create_wall(player_start_pos+Vector3(15,10,15),Vector3(10,0.1,10),Vector3(0,0,0),true,false))
+	platforms.push_back(create_wall(player_start_pos+Vector3(30,15,20),Vector3(10,0.1,10),Vector3(0,0,0),true,false))
 	
 	for i in range(len(platforms)):
 		if i<len(dialog) and dialog[i] != null:
@@ -57,15 +58,9 @@ func gerar_plataformas():
 			platforms[i]["StaticBody"].add_to_group(group)
 			platforms_dialog.push_back({"already_shown":false,"dialog":dialog[i],"index":i,"group":group})
 		
-func textura(mesh_i):
-	var material = StandardMaterial3D.new()
-	var textura = load("res://assets/textures/CleanEdge_tileset.png")
-	material.albedo_texture = textura
-	mesh_i.material_override = material
-
 func create_wall(pos:Vector3,mesh_size:Vector3= Vector3(10,0.1,25), 
 	rotation: Vector3=Vector3(0,0,0),dupla_face:bool=false, is_fragile:int=0, 
-	Cor:Color=Color(0.871, 0.562, 0.255, 1.0),break_strength:float=500.0):
+	Cor:Color=Color(1, 1, 1, 1.0),break_strength:float=500.0):
 		
 	var floor_instance = fragile_floor_scene.instantiate()
 	var mesh_i = floor_instance.get_node("MeshInstance3D")
@@ -114,27 +109,19 @@ func desabilitar_culling_mesh(mesh_i):
 	material.cull_mode = BaseMaterial3D.CULL_DISABLED
 
 func show_dialog(texto:String,show_btn:bool,action:String="", funcao : Callable = Callable()):
-	#player.set_dialog_text(texto)
-	#player.show_btn(show_btn)
-	#player.hide_dialog_by_input(action)
 	player.show_message(texto,show_btn,action)
 	if funcao != Callable():
 		player.button_pressed.connect(funcao)
 	
 func inicio():
-	show_dialog("Bem vindo a density shift!\n nesse jogo a principal mecânica é sobre o controle do peso
-	do seu corpo, aperte a tecla 1 para entrar no modo leve e seguir em frente",false,"toggle_light")
+	show_dialog("Bem vindo a density shift!\n nesse jogo a principal mecânica é sobre o controle do peso do seu corpo, aperte a tecla 1 para entrar no modo leve e seguir em frente",false,"toggle_light")
 func dialog_leve():
-	show_dialog("Agora você está no estado leve, nesse estado você consegue dar longos pulos duplos e alcançar grandes alturas, experimente subir nas plataformas
-	a sua frente para continuar",true,"")
+	show_dialog("Agora você está no estado leve, nesse estado você consegue dar longos pulos duplos e alcançar grandes alturas, experimente subir nas plataformas a sua frente para continuar",true,"")
 func dialog_p1():
-	show_dialog("Há dois tipos de piso, o azul que é o piso resistente, e o rosa que é o piso frágil, é possível quebrar
-	o piso frágil ao cair de bem alto enquanto está no modo pesado segurando a tecla shift, experimente tentar quebrar o piso 
-	frágil a frente",true,"")
+	show_dialog("Há dois tipos de piso, o branco que é o piso resistente, e o vermelho que é o piso frágil, é possível quebrar o piso frágil ao cair de bem alto enquanto está no modo pesado segurando a tecla shift, experimente tentar quebrar o piso frágil a frente",true,"")
 
 func dialog_p2():
-	show_dialog("Hmm, parece que você não obteve energia o suficiente para quebrar esse piso caindo dessa altura,
-	tente subir em uma plataforma mais alta",true,"")
+	show_dialog("Hmm, parece que você não obteve energia o suficiente para quebrar esse piso caindo dessa altura, tente subir em uma plataforma mais alta",true,"")
 
 func break_tutorial_done():
 	already_shown_break_tutorial = true
@@ -160,13 +147,11 @@ func _process(delta: float) -> void:
 	
 func trigger_dialog():
 	for i in platforms_dialog:
-		#print(player.position,i["group"])
 		if verify_collision(i["index"],i["dialog"],i["already_shown"]):
 			i["already_shown"] = true
 			
 
 func touch_grass():
-	print(player.global_position, chao_position)
 	if player.global_position.y - chao_position.y < 0.2 :#se tocou o chao
 		player.global_position = platforms[0]["StaticBody"].position + Vector3(0,0.2,0)
 
@@ -181,7 +166,6 @@ func verify_collision(index:int,dialog:Callable,already_shown:bool):
 	
 	if result:
 		var collider = result.collider
-		print(already_shown_break_tutorial,collider.get_groups(), is_breaking)
 		if already_shown_break_tutorial and collider.is_in_group("fragile_floor") and not is_breaking:
 			wrong_mode_dialog()
 			
