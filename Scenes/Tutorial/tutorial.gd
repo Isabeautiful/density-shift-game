@@ -118,7 +118,8 @@ func inicio():
 func dialog_leve():
 	show_dialog("Agora você está no estado leve, nesse estado você consegue dar longos pulos duplos e alcançar grandes alturas, experimente subir nas plataformas a sua frente para continuar",true,"")
 func dialog_p1():
-	show_dialog("Há dois tipos de piso, o branco que é o piso resistente, e o vermelho que é o piso frágil, é possível quebrar o piso frágil ao cair de bem alto enquanto está no modo pesado segurando a tecla shift, experimente tentar quebrar o piso frágil a frente",true,"")
+	show_dialog("Há dois tipos de piso, o branco que é o piso resistente, e o vermelho que é o piso frágil, é possível quebrar o piso frágil ao cair de bem alto enquanto está no modo pesado e segurando a tecla shift, para entrar no modo pesado aperte a tecla 2 
+	Experimente tentar quebrar o piso frágil a frente",true,"")
 
 func dialog_p2():
 	show_dialog("Hmm, parece que você não obteve energia o suficiente para quebrar esse piso caindo dessa altura, tente subir em uma plataforma mais alta",true,"")
@@ -127,7 +128,11 @@ func break_tutorial_done():
 	already_shown_break_tutorial = true
 
 func dialog_end():
-	show_dialog("Tutorial Concluído!",true,"",toMainMenu)
+	show_dialog("Tutorial Concluído!",true,"",to_tutorial_2)
+	
+func to_tutorial_2():
+	get_tree().change_scene_to_file("res://Scenes/Tutorial/TestLevel.tscn")
+	
 func toMainMenu():
 	get_tree().change_scene_to_file("res://Scenes/Control/MainMenu/MainMenu.tscn")
 	

@@ -13,9 +13,10 @@ extends Node3D
 @export var floor_spacing_vertical: float = 10.0
 @export var first_floor_height: float = 5.0
 @export var portal_scene: PackedScene
-@export var spawn_portal_on_top_floor: bool = false
+@export var spawn_portal_on_top_floor: bool = true
 @export var portal_height_offset: float = 1.5
 
+@onready var player: CharacterBody3D = $Player
 @onready var floor_scene = preload("res://Scenes/Floor/floor.tscn")
 @onready var wall_scene = preload("res://Scenes/TowerFloor/Wall.tscn")
 @onready var audio_stream_player: AudioStreamPlayer = $AudioStreamPlayer
@@ -27,6 +28,7 @@ var wall_collision_shapes = []
 var spawned_floors_by_level = []
 
 func _ready():
+	dialog()
 	audio_stream_player.stream.loop = true
 	audio_stream_player.play()
 	# Inicializar array para rastrear pisos
@@ -288,7 +290,6 @@ func spawn_victory_portal():
 		floor_position.y + portal_height_offset,
 		floor_position.z
 	)
-	
 	victory_portal = portal_scene.instantiate()
 	add_child(victory_portal)
 	victory_portal.global_transform.origin = portal_position
@@ -305,6 +306,19 @@ func _on_portal_body_entered(body):
 func _on_player_reached_portal():
 	show_victory_screen()
 
+
 func show_victory_screen():
-	get_tree().change_scene_to_file("res://Scenes/Control/Victory/Victory.tscn")
+	show_dialog("Tutorial Concluído!",true,"",return_to_menu)
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	
+func return_to_menu():
+	get_tree().change_scene_to_file("res://Scenes/Control/MainMenu/MainMenu.tscn")
+	
+func dialog():
+	show_dialog("Esse é o labirinto. Em algum lugar desses 3 andares está o portal que vai te levar para fora desse lugar, esse lugar é lar de monstros que não estão interessados em te deixar sair e que vão te ouvir ao se aproximar demais, escape deles e encontre a saída.
+	Para te introduzir ao labirinto, há apenas 3 monstros aqui e o portal está em algum lugar do último piso. 
+	Boa sorte",true)
+func show_dialog(texto:String,show_btn:bool,action:String="", funcao : Callable = Callable()):
+	player.show_message(texto,show_btn,action)
+	if funcao != Callable():
+		player.button_pressed.connect(funcao)

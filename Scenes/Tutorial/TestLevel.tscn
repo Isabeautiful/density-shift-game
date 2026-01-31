@@ -1,8 +1,9 @@
 [gd_scene format=3 uid="uid://c0uh7q6ramyyj"]
 
-[ext_resource type="Script" uid="uid://clm4b68edsqup" path="res://Scenes/TowerFloor/TowerFloor.gd" id="1"]
+[ext_resource type="Script" uid="uid://bj8bwv17g366s" path="res://Scenes/Tutorial/test_level.gd" id="1_kmigb"]
 [ext_resource type="PackedScene" uid="uid://b1n85n6q7xwuv" path="res://Scenes/Player/Player.tscn" id="2"]
 [ext_resource type="PackedScene" uid="uid://c52tg8vdbewgn" path="res://Scenes/Portal/Portal.tscn" id="2_uj353"]
+[ext_resource type="PackedScene" uid="uid://bq6tygf4bpel6" path="res://Scenes/Enemies/FloatingEnemyBall.tscn" id="4_1no3s"]
 [ext_resource type="AudioStream" uid="uid://bw2xts1hqbwg8" path="res://assets/audio/music/Music_EuropaIce.mp3" id="4_kmigb"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_chao"]
@@ -18,7 +19,7 @@ size = Vector3(200, 50, 1)
 size = Vector3(200, 50, 1)
 
 [node name="TestLevel" type="Node3D" unique_id=1149483592]
-script = ExtResource("1")
+script = ExtResource("1_kmigb")
 portal_scene = ExtResource("2_uj353")
 
 [node name="chao" type="StaticBody3D" parent="." unique_id=627199014]
@@ -81,3 +82,12 @@ omni_range = 100.0
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1217192715]
 stream = ExtResource("4_kmigb")
 autoplay = true
+
+[node name="FloatingEnemyBall" parent="." unique_id=2113840622 instance=ExtResource("4_1no3s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.280817, 33.385525, 0.093465805)
+
+[node name="FloatingEnemyBall2" parent="." unique_id=428810008 instance=ExtResource("4_1no3s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.1384044, 33.23282, 0.8888111)
+
+[node name="FloatingEnemyBall3" parent="." unique_id=1204316945 instance=ExtResource("4_1no3s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.472343, 32.97077, 0)

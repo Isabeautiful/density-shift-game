@@ -56,7 +56,7 @@ func _physics_process(delta):
 	label_feedback.visible = true
 	
 	value_hp.text = str(hp)
-	
+	print("minha pos: ",position)
 	if expected_input != "":
 		if Input.is_action_just_pressed(expected_input):
 			hide_dialog(false)

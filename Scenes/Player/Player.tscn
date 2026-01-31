@@ -75,7 +75,6 @@ offset_top = -223.0
 offset_right = 495.0
 offset_bottom = 102.0
 theme = SubResource("Theme_4wape")
-text = "dasda"
 justification_flags = 171
 
 [node name="Button" type="Button" parent="CameraPivot/CameraController/Camera3D/CanvasLayer/Dialog" unique_id=1907357588]
